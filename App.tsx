@@ -1,18 +1,12 @@
 import React from "react";
-import {
-  Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
-  NativeBaseProvider,
-  extendTheme,
-  VStack,
-  Box,
-} from "native-base";
-import NativeBaseIcon from "./components/NativeBaseIcon";
+import { NativeBaseProvider, extendTheme } from "native-base";
+import { BottomTabNavigationOptions, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer, ParamListBase, RouteProp } from "@react-navigation/native";
+import IconBottomTab from "./src/components/IconBottomTab";
+import Home from "./src/screens/Home";
+import Grid from "./src/screens/Grid";
+import Message from "./src/screens/Message/Message";
+import User from "./src/screens/User";
 
 // Define the config
 const config = {
@@ -26,62 +20,47 @@ type MyThemeType = typeof theme;
 declare module "native-base" {
   interface ICustomTheme extends MyThemeType {}
 }
+
+// Navigation
+const Tab = createBottomTabNavigator();
+
+interface TabOptions {
+  route: RouteProp<ParamListBase>;
+  navigation: any;
+}
+
+interface TabBarIconProps {
+  focused: boolean;
+  color: string;
+  size: number;
+}
+
+const options = (props: TabOptions): BottomTabNavigationOptions => {
+  const { route } = props;
+  const tabBarIcon = ({ focused }: TabBarIconProps) => {
+    return <IconBottomTab name={route.name} focused={focused} />;
+  };
+
+  return {
+    tabBarIcon,
+    headerShown: false,
+    tabBarLabelStyle: { fontSize: 12 },
+    tabBarStyle: { paddingVertical: 4 },
+    tabBarShowLabel: false
+  };
+};
+
 export default function App() {
   return (
     <NativeBaseProvider>
-      <Center
-        _dark={{ bg: "blueGray.900" }}
-        _light={{ bg: "blueGray.50" }}
-        px={4}
-        flex={1}
-      >
-        <VStack space={5} alignItems="center">
-          <NativeBaseIcon />
-          <Heading size="lg">Welcome to NativeBase</Heading>
-          <HStack space={2} alignItems="center">
-            <Text>Edit</Text>
-            <Box
-              _web={{
-                _text: {
-                  fontFamily: "monospace",
-                  fontSize: "sm",
-                },
-              }}
-              px={2}
-              py={1}
-              _dark={{ bg: "blueGray.800" }}
-              _light={{ bg: "blueGray.200" }}
-            >
-              App.js
-            </Box>
-            <Text>and save to reload.</Text>
-          </HStack>
-          <Link href="https://docs.nativebase.io" isExternal>
-            <Text color="primary.500" underline fontSize={"xl"}>
-              Learn NativeBase
-            </Text>
-          </Link>
-          <ToggleDarkMode />
-        </VStack>
-      </Center>
+      <NavigationContainer>
+        <Tab.Navigator initialRouteName="Home">
+          <Tab.Screen name="Home" component={Home} options={options} />
+          <Tab.Screen name="Grid" component={Grid} options={options} />
+          <Tab.Screen name="Message" component={Message} options={options} />
+          <Tab.Screen name="User" component={User} options={options} />
+        </Tab.Navigator>
+      </NavigationContainer>
     </NativeBaseProvider>
-  );
-}
-
-// Color Switch Component
-function ToggleDarkMode() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  return (
-    <HStack space={2} alignItems="center">
-      <Text>Dark</Text>
-      <Switch
-        isChecked={colorMode === "light"}
-        onToggle={toggleColorMode}
-        aria-label={
-          colorMode === "light" ? "switch to dark mode" : "switch to light mode"
-        }
-      />
-      <Text>Light</Text>
-    </HStack>
   );
 }
