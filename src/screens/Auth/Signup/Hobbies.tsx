@@ -1,13 +1,13 @@
 /**
- TODO: Chat History - Tuan
+ TODO: Hobbies Screen - Hien
  */
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-export default function ListMassage() {
+export default function Hobbies() {
   return (
     <View>
-      <Text>ListMassage</Text>
+      <Text>Hobbies</Text>
     </View>
   )
 }

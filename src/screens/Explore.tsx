@@ -1,16 +1,18 @@
 /**
- TODO: Chat Screen - Tuan
- * Lib: react-native-gifted-chat
+ TODO: Explore Screen - Hien 
  */
+
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-export default function Message() {
+const Explore = () => {
   return (
     <View>
-      <Text>Message</Text>
+      <Text>Explore</Text>
     </View>
   );
-}
+};
+
+export default Explore;
 
 const styles = StyleSheet.create({});

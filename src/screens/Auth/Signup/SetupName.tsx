@@ -1,16 +1,14 @@
-/**
- TODO: Chat Screen - Tuan
- * Lib: react-native-gifted-chat
- */
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-export default function Message() {
+const SetupName = () => {
   return (
     <View>
-      <Text>Message</Text>
+      <Text>SetupName</Text>
     </View>
   );
-}
+};
+
+export default SetupName;
 
 const styles = StyleSheet.create({});
