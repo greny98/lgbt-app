@@ -11,7 +11,6 @@ import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons'; 
 import { Feather } from '@expo/vector-icons';
 
-
 export default function Login() {
   return (
     <View style={{backgroundColor: 'red', height: '100%'}}>
