@@ -7,6 +7,7 @@ import Home from "./src/screens/Home";
 import Grid from "./src/screens/Grid";
 import Message from "./src/screens/Message/Message";
 import User from "./src/screens/User";
+import Main from "./Main";
 
 // Define the config
 const config = {
@@ -58,7 +59,7 @@ export default function App() {
           <Tab.Screen name="Home" component={Home} options={options} />
           <Tab.Screen name="Grid" component={Grid} options={options} />
           <Tab.Screen name="Message" component={Message} options={options} />
-          <Tab.Screen name="User" component={User} options={options} />
+          <Tab.Screen name="User" component={Main} options={options} />
         </Tab.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
