@@ -2,8 +2,6 @@ import { BottomTabNavigationOptions, createBottomTabNavigator } from "@react-nav
 import { NavigationContainer, ParamListBase, RouteProp } from "@react-navigation/native";
 import React from "react";
 import IconBottomTab from "./components/IconBottomTab";
-import Grid from "./screens/Grid";
-import Message from "./screens/Message/Message";
 import Main from "../Main";
 import Home from "./screens/Home";
 import { useSelector } from "react-redux";
@@ -11,6 +9,9 @@ import { RootState } from "./redux/store";
 import AuthStack from "./navigations/AuthStack";
 import Loading from "./screens/Loading";
 import { EFetchStatus } from "./redux/user.reducer";
+import Explore from "./screens/Explore";
+import { users } from "./mockup";
+import MessageStack from "./navigations/MessageStack";
 
 // Navigation
 const Tab = createBottomTabNavigator();
@@ -49,11 +50,16 @@ export default function Root() {
     <>
       {status == EFetchStatus.PENDING && <Loading />}
       <NavigationContainer>
-        {user ? (
-          <Tab.Navigator initialRouteName="Home">
+        {!user ? (
+          <Tab.Navigator initialRouteName="Message">
             <Tab.Screen name="Home" component={Home} options={options} />
-            <Tab.Screen name="Grid" component={Grid} options={options} />
-            <Tab.Screen name="Message" component={Message} options={options} />
+            <Tab.Screen name="Grid" component={Explore} options={options} />
+            <Tab.Screen
+              name="Message"
+              component={MessageStack}
+              options={options}
+              initialParams={{ fr: users[1].phone }}
+            />
             <Tab.Screen name="User" component={Main} options={options} />
           </Tab.Navigator>
         ) : (
