@@ -15,7 +15,7 @@ const PhoneVerification = () => {
   const phoneVerify = async () => {
     const phoneProvider = new PhoneAuthProvider(firebaseAuth);
     const verificationId = await phoneProvider.verifyPhoneNumber("+84" + phone, recaptchaVerifier.current!);
-    navigation.navigate("CodeVerification", { verificationId });
+    navigation.navigate("CodeVerification", { verificationId, phone: "+84" + phone });
   };
   return (
     <View style={{ height: "100%", alignItems: "center" }}>

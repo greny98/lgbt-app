@@ -13,6 +13,15 @@ export const users: IUser[] = [
     hobbies: ["Billard", "Coding"],
   },
   {
+    phone: "+84394650701",
+    city: "Hanoi",
+    country: "Vietnam",
+    firstName: "Dan",
+    lastName: "Hoang",
+    gender: EGender.Male,
+    hobbies: ["Billard", "Coding"],
+  },
+  {
     phone: "+84936511629",
     city: "Hanoi",
     country: "Vietnam",
@@ -64,14 +73,14 @@ export const chats: IChat[] = [
     createdAt: new Date(),
   },
   {
-    from: users[1].phone,
+    from: users[0].phone,
     to: users[2].phone,
     text: "Okeee",
     createdAt: new Date(),
   },
   {
-    from: users[1].phone,
-    to: users[2].phone,
+    from: users[2].phone,
+    to: users[0].phone,
     text: "Okeee",
     createdAt: new Date(),
   },

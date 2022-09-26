@@ -20,5 +20,5 @@ export interface IChat {
   from: string;
   to: string;
   text: string;
-  createdAt: Date | number;
+  createdAt: Date;
 }

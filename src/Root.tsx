@@ -10,7 +10,7 @@ import AuthStack from "./navigations/AuthStack";
 import Loading from "./screens/Loading";
 import { EFetchStatus } from "./redux/user.reducer";
 import Explore from "./screens/Explore";
-import { users } from "./mockup";
+import { createChats, createUsers, users } from "./mockup";
 import MessageStack from "./navigations/MessageStack";
 
 // Navigation
@@ -41,16 +41,19 @@ const options = (props: TabOptions): BottomTabNavigationOptions => {
     tabBarShowLabel: false,
   };
 };
-
+(async () => {
+  await createUsers();
+  await createChats();
+})();
 export default function Root() {
   const user = useSelector<RootState>((state) => state.user.user);
   const status = useSelector<RootState>((state) => state.user.status);
-
+  
   return (
     <>
       {status == EFetchStatus.PENDING && <Loading />}
       <NavigationContainer>
-        {!user ? (
+        {user ? (
           <Tab.Navigator initialRouteName="Message">
             <Tab.Screen name="Home" component={Home} options={options} />
             <Tab.Screen name="Grid" component={Explore} options={options} />

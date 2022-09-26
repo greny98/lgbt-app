@@ -5,18 +5,21 @@ import { AntDesign } from "@expo/vector-icons";
 import { PhoneAuthProvider, signInWithCredential } from "firebase/auth";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { firebaseAuth } from "../../firebase/config";
+import { useDispatch } from "react-redux";
+import { fetchUser } from "../../redux/user.reducer";
 
 const CodeVerification = () => {
   const [code, setCode] = useState("");
   const [message, showMessage] = React.useState<any | null>({});
   const route = useRoute<any>();
   const navigation = useNavigation<any>();
+  const dispatch = useDispatch<any>()
 
   const codeVerify = async () => {
     try {
       const credential = PhoneAuthProvider.credential(route.params.verificationId, code);
       await signInWithCredential(firebaseAuth, credential);
-      showMessage({ text: "Phone authentication successful 👍" });
+      await dispatch(fetchUser(route.params.phone));
     } catch (err: any) {
       showMessage({ text: `Error: ${err.message}`, color: "red" });
     }

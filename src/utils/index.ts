@@ -5,7 +5,7 @@ export const chatToMess = (chat: IChat, messId: string): IMessage => {
   return {
     _id: messId,
     user: { _id: chat.from },
-    createdAt: new Date((chat.createdAt as any).toDate()),
+    createdAt: (chat.createdAt as any).toDate(),
     text: chat.text,
   };
 };

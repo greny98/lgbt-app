@@ -6,17 +6,35 @@ import { Feather } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { Heading } from "native-base";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import { fetchUser } from "../../redux/user.reducer";
 
 export default function Login() {
   const navigation = useNavigation<any>();
   const phoneVerify = () => {
     navigation.navigate("PhoneVerification");
   };
+  const dispatch = useDispatch<any>();
+  const loadUser1 = async () => {
+    try {
+      await dispatch(fetchUser("+84337676999"));
+    } catch (err: any) {
+      console.log(err.message);
+    }
+  };
+
+  const loadUser2 = async () => {
+    try {
+      await dispatch(fetchUser("+84394650701"));
+    } catch (err: any) {
+      console.log(err.message);
+    }
+  };
 
   return (
     <View style={{ backgroundColor: "red", height: "100%" }}>
       <LinearGradient colors={["#FD297B", "#FF5864", "#FF655B"]} style={styles.gradient} />
-      
+
       <View style={{ width: "100%", alignItems: "center" }}>
         <View
           style={{
@@ -26,6 +44,55 @@ export default function Login() {
         >
           <Heading style={{ fontSize: 32, lineHeight: 44.8, color: "white" }}>LGBT</Heading>
         </View>
+      </View>
+
+      <View style={{ flexDirection: "row", position: "relative" }}>
+        <Entypo
+          name="facebook-with-circle"
+          size={24}
+          color="white"
+          style={{ position: "absolute", zIndex: 10, top: 24, left: 20, fontSize: 24 }}
+        />
+        <TouchableOpacity
+          style={{
+            width: 342,
+            height: 56,
+            borderRadius: 60,
+            paddingHorizontal: 15,
+            marginTop: 10,
+            alignItems: "center",
+            justifyContent: "center",
+            borderWidth: 1,
+            borderColor: "white",
+          }}
+          onPress={loadUser1}
+        >
+          <Text style={{ color: "white" }}>Tuan</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={{ flexDirection: "row", position: "relative" }}>
+        <Entypo
+          name="facebook-with-circle"
+          size={24}
+          color="white"
+          style={{ position: "absolute", zIndex: 10, top: 24, left: 20, fontSize: 24 }}
+        />
+        <TouchableOpacity
+          style={{
+            width: 342,
+            height: 56,
+            borderRadius: 60,
+            paddingHorizontal: 15,
+            marginTop: 10,
+            alignItems: "center",
+            justifyContent: "center",
+            borderWidth: 1,
+            borderColor: "white",
+          }}
+          onPress={loadUser2}
+        >
+          <Text style={{ color: "white" }}>Dan</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={{ alignItems: "center" }}>
