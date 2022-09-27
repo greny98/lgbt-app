@@ -62,16 +62,12 @@ const PhoneVerification = () => {
             alignItems: "center",
             justifyContent: "center",
             borderWidth: 1,
-            borderColor: "white",
+            borderColor: !phone.length ? "gray" : "#000",
           }}
           disabled={!phone.length}
           onPress={phoneVerify}
         >
-          <LinearGradient
-            colors={["#FD297B", "#FF5864", "#FF655B"]}
-            style={[styles.gradient, { opacity: !phone.length ? 0.5 : 1 }]}
-          />
-          <Text style={styles.btnText}>TIẾP TỤC</Text>
+          <Text style={[styles.btnText, {color: !phone.length ? "gray" : "#000"}]}>TIẾP TỤC</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -89,6 +85,5 @@ const styles = StyleSheet.create({
   },
   btnText: {
     fontWeight: "700",
-    color: "#fff",
   },
 });

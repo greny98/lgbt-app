@@ -18,7 +18,7 @@ const Stack = createNativeStackNavigator();
 
 export default function AuthStack() {
   return (
-    <Stack.Navigator initialRouteName="NameVerification">
+    <Stack.Navigator initialRouteName="Login">
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="PhoneVerification" component={PhoneVerification} options={{ headerShown: false }} />
       <Stack.Screen name="CodeVerification" component={CodeVerification} options={{ headerShown: false }} />
