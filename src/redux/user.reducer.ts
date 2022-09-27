@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { IUser } from "../@types";
 import { firestore } from "../firebase/config";
 import { collection, getDocs, query, where } from "firebase/firestore";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const userCollectionRef = collection(firestore, "users");
 
@@ -32,14 +33,14 @@ export const fetchUser = createAsyncThunk<IUser | null, string>("user/fetchUser"
   // return users[0];
 });
 
+export const removeUser = createAsyncThunk("user/logout", async () => {
+  await AsyncStorage.clear();
+});
+
 const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    logout(state, action) {
-      state.user = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchUser.pending, (state, action) => {
@@ -50,12 +51,19 @@ const userSlice = createSlice({
         state.status = EFetchStatus.SUCCESS;
       })
       .addCase(fetchUser.rejected, (state, action) => {
-        console.log("Rejected");
+        console.log("Rejected", action);
         state.status = EFetchStatus.FAILED;
+      })
+      .addCase(removeUser.pending, (state) => {
+        state.status = EFetchStatus.PENDING;
+      })
+      .addCase(removeUser.fulfilled, (state) => {
+        state.user = null;
+        state.status = EFetchStatus.SUCCESS;
       });
   },
 });
 
-export const { logout } = userSlice.actions;
+// export const {  } = userSlice.actions;
 
 export default userSlice.reducer;

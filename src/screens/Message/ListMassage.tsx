@@ -78,7 +78,6 @@ export default function ListMassage() {
     const unsubscribe = navigation.addListener("focus", () => {
       loadHistory();
     });
-
     // Return the function to unsubscribe from the event so it gets removed on unmount
     return unsubscribe;
   }, [navigation]);
