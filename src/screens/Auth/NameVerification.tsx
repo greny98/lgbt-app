@@ -1,21 +1,22 @@
 import { View, Text, TouchableOpacity, StatusBar } from "react-native";
-import React from "react";
-import { AntDesign } from "@expo/vector-icons";
+import React, { useState } from "react";
 import { Input } from "native-base";
+import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-const EmailVerification = () => {
+const NameVerification = () => {
   const navigation = useNavigation<any>();
-  const emailVerification = () => {
-    navigation.navigate('WelcomeVerification')
-  }
+  // const [name, setName] = useState("");
+  const nameVerification = () => {
+    navigation.navigate("HbdVerification");
+  };
   return (
     <View style={{ height: "100%" }}>
       <StatusBar barStyle="dark-content" />
       <View style={{ width: "100%" }}>
-        <TouchableOpacity onPress={()=>navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <AntDesign
-            name="left"
+            name="close"
             size={30}
             color="black"
             style={{ marginVertical: 45, marginHorizontal: 15 }}
@@ -24,16 +25,23 @@ const EmailVerification = () => {
       </View>
       <View style={{ width: "80%", marginHorizontal: "10%" }}>
         <Text style={{ fontSize: 26, fontWeight: "700" }}>
-          Email của bạn là gi?
+          Tên tôi là
         </Text>
         <View style={{ flexDirection: "row", width: "100%" }}>
-          <Input placeholder="Nhập email" variant="underlined" marginX={1} w="100%" autoComplete='email' />
+          <Input
+            // onChangeText={(text) => setName(text)}
+            placeholder="Tên"
+            variant="underlined"
+            marginX={1}
+            w="100%"
+            autoComplete="email"
+          />
         </View>
       </View>
 
       <View style={{ alignItems: "center" }}>
         <TouchableOpacity
-          onPress={emailVerification}
+          onPress={nameVerification}
           style={{
             width: 342,
             height: 56,
@@ -45,26 +53,12 @@ const EmailVerification = () => {
             justifyContent: "center",
             borderWidth: 1,
             borderColor: "white",
-          }}
-        >
-          <Text style={{ color: "white", fontWeight: '700'}}>TIẾP TỤC</Text>
+          }}>
+          <Text style={{ color: "white", fontWeight: "700" }}>TIẾP TỤC</Text>
         </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        style={[{ backgroundColor: "0xffffffee", justifyContent: "center" }]}
-      >
-        <Text
-          style={{
-            // color: message.color || "blue",
-            fontSize: 17,
-            textAlign: "center",
-            margin: 20,
-          }}
-        ></Text>
-      </TouchableOpacity>
     </View>
   );
 };
 
-export default EmailVerification;
+export default NameVerification;

@@ -21,10 +21,13 @@ const CodeVerification = () => {
       const credential = PhoneAuthProvider.credential(route.params.verificationId, code);
       await signInWithCredential(firebaseAuth, credential);
       await AsyncStorage.setItem("phone", route.params.phone);
+      // showMessage({ text: "Phone authentication successful 👍" });
+      navigation.navigate("EmailVerification");
       await dispatch(fetchUser(route.params.phone));
     } catch (err: any) {
       showMessage({ text: `Error: ${err.message}`, color: "red" });
     }
+    
   };
   return (
     <View style={{ height: "100%" }}>
@@ -37,13 +40,9 @@ const CodeVerification = () => {
       <View style={{ width: "80%", marginHorizontal: "10%" }}>
         <Text style={{ fontSize: 26, fontWeight: "700" }}>Mã của tôi là</Text>
         <View style={{ flexDirection: "row", width: "100%" }}>
-          {/* <Text style={{borderBottomWidth: 1, borderColor: 'black', lineHeight: 46, marginRight: 15, width: '17%'}}>VN +84</Text> */}
+          
           <Input placeholder="" variant="underlined" marginX={1} w="100%" onChangeText={setCode} />
-          {/* <Input placeholder="" variant="underlined" w="16.66666%" marginX={1} />
-          <Input placeholder="" variant="underlined" w="16.66666%" marginX={1} />
-          <Input placeholder="" variant="underlined" w="16.66666%" marginX={1} />
-          <Input placeholder="" variant="underlined" w="16.66666%" marginX={1} />
-          <Input placeholder="" variant="underlined" w="16.66666%" marginX={1} /> */}
+
         </View>
       </View>
 
@@ -63,7 +62,7 @@ const CodeVerification = () => {
           }}
           onPress={codeVerify}
         >
-          <Text style={{ color: "white" }}>TIẾP TỤC</Text>
+          <Text style={{ color: "white", fontWeight: '700' }}>TIẾP TỤC</Text>
         </TouchableOpacity>
       </View>
       {message ? (
