@@ -7,10 +7,12 @@ import { Heading, View } from "native-base";
 
 export default function Home() {
   const user = useSelector<RootState, IUser>((state) => state.user.user!);
+  console.log(user);
+  
   return (
     <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-      <Heading>{user.firstName}</Heading>
-      <Heading>{user.lastName}</Heading>
+      {/* <Heading>{user.firstName}</Heading>
+      <Heading>{user.lastName}</Heading> */}
     </View>
   );
 }

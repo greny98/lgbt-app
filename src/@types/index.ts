@@ -14,3 +14,11 @@ export interface IUser {
   avt?: string;
   hobbies: string[];
 }
+
+export interface IChat {
+  id?: string;
+  from: string;
+  to: string;
+  text: string;
+  createdAt: Date;
+}

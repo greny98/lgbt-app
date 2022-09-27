@@ -1,10 +1,13 @@
+/**
+ TODO: Upload Image when signup - Hiep
+ */
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-export default function Grid() {
+export default function ProfileImages() {
   return (
     <View>
-      <Text>Grid</Text>
+      <Text>ProfileImages</Text>
     </View>
   );
 }
