@@ -110,8 +110,9 @@ export default function Login() {
                 borderWidth: 1,
                 borderColor: "white",
               }}
+              onPress={phoneVerify}
             >
-              <Text style={{ color: "white" }} onPress={phoneVerify}>
+              <Text style={{ color: "white" }}>
                 ĐĂNG NHẬP VỚI SỐ ĐIỆN THOẠI
               </Text>
             </TouchableOpacity>

@@ -27,7 +27,7 @@ const PhoneVerification = () => {
         attemptInvisibleVerification
       />
       <View style={{ width: "100%" }}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.goBack()}>
           <AntDesign name="left" size={30} color="black" style={{ marginVertical: 45, marginHorizontal: 15 }} />
         </TouchableOpacity>
       </View>
