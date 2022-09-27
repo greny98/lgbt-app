@@ -12,6 +12,7 @@ import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
+import Loading from "../Loading";
 
 type ChatItem = {
   user?: IUser;
