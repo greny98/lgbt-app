@@ -7,18 +7,20 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { firebaseAuth } from "../../firebase/config";
 import { useDispatch } from "react-redux";
 import { fetchUser } from "../../redux/user.reducer";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CodeVerification = () => {
   const [code, setCode] = useState("");
   const [message, showMessage] = React.useState<any | null>({});
   const route = useRoute<any>();
   const navigation = useNavigation<any>();
-  const dispatch = useDispatch<any>()
+  const dispatch = useDispatch<any>();
 
   const codeVerify = async () => {
     try {
       const credential = PhoneAuthProvider.credential(route.params.verificationId, code);
       await signInWithCredential(firebaseAuth, credential);
+      await AsyncStorage.setItem("phone", route.params.phone);
       await dispatch(fetchUser(route.params.phone));
     } catch (err: any) {
       showMessage({ text: `Error: ${err.message}`, color: "red" });
@@ -28,7 +30,7 @@ const CodeVerification = () => {
     <View style={{ height: "100%" }}>
       <StatusBar barStyle="dark-content" />
       <View style={{ width: "100%" }}>
-        <TouchableOpacity onPress={()=>navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <AntDesign name="left" size={30} color="black" style={{ marginVertical: 45, marginHorizontal: 15 }} />
         </TouchableOpacity>
       </View>

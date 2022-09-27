@@ -1,6 +1,6 @@
 import { BottomTabNavigationOptions, createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { NavigationContainer, ParamListBase, RouteProp } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import IconBottomTab from "./components/IconBottomTab";
 import Main from "../Main";
 import Home from "./screens/Home";
@@ -8,10 +8,13 @@ import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import AuthStack from "./navigations/AuthStack";
 import Loading from "./screens/Loading";
-import { EFetchStatus } from "./redux/user.reducer";
+import { EFetchStatus, fetchUser } from "./redux/user.reducer";
 import Explore from "./screens/Explore";
 import { createChats, createUsers, users } from "./mockup";
 import MessageStack from "./navigations/MessageStack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch } from "react-redux";
+import { removeLoading, setLoading } from "./redux/loading.reducer";
 
 // Navigation
 const Tab = createBottomTabNavigator();
@@ -48,10 +51,24 @@ const options = (props: TabOptions): BottomTabNavigationOptions => {
 export default function Root() {
   const user = useSelector<RootState>((state) => state.user.user);
   const status = useSelector<RootState>((state) => state.user.status);
-  
+  const loading = useSelector<RootState>((state) => state.loading.loading);
+  const dispatch = useDispatch<any>();
+
+  useEffect(() => {
+    (async () => {
+      dispatch(setLoading());
+      const phone = await AsyncStorage.getItem("phone");
+      if (phone) {
+        await dispatch(fetchUser(phone));
+      }
+      dispatch(removeLoading());
+    })();
+    return () => {};
+  }, []);
+
   return (
     <>
-      {status == EFetchStatus.PENDING && <Loading />}
+      {(loading || status === EFetchStatus.PENDING) && <Loading />}
       <NavigationContainer>
         {user ? (
           <Tab.Navigator initialRouteName="Message">
