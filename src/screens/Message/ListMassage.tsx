@@ -5,16 +5,16 @@ import { Platform, StatusBar, StyleSheet, TouchableOpacity } from "react-native"
 import React, { useEffect, useState } from "react";
 import MessageItem from "../../components/MessageItem";
 import { Heading, HStack, Image, ScrollView, View } from "native-base";
-import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../../firebase/config";
 import { IChat, IUser } from "../../@types";
 import moment from "moment";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { createChats, createUsers } from "../../mockup";
 
 type ChatItem = {
+  user?: IUser;
   name: string;
   createdAt: Date;
   text: string;
@@ -29,51 +29,61 @@ export default function ListMassage() {
     navigation.navigate("MessageScreen", { fr });
   };
 
+  const loadHistory = async () => {
+    const messRef = collection(firestore, "chats");
+    const userRef = collection(firestore, "users");
+
+    const userToFrQ = query(messRef, where("from", "==", user.phone));
+    const frToUserQ = query(messRef, where("to", "==", user.phone));
+
+    try {
+      const [userToFrData, frToUserData] = await Promise.all([getDocs(userToFrQ), getDocs(frToUserQ)]);
+      const itemDicts: { [key: string]: ChatItem } = {};
+      userToFrData.forEach((mess) => {
+        const data = mess.data() as IChat;
+        if (!itemDicts[data.to] || moment((data.createdAt as any).toDate()).isAfter(itemDicts[data.to].createdAt)) {
+          itemDicts[data.to] = {
+            name: data.to,
+            createdAt: (data.createdAt as any).toDate(),
+            text: data.text,
+          };
+        }
+      });
+      frToUserData.forEach((mess) => {
+        const data = mess.data() as IChat;
+        if (!itemDicts[data.from] || moment((data.createdAt as any).toDate()).isAfter(itemDicts[data.from].createdAt)) {
+          itemDicts[data.from] = {
+            name: data.from,
+            createdAt: (data.createdAt as any).toDate(),
+            text: data.text,
+          };
+        }
+      });
+      const usersData = (await getDocs(query(userRef, where("phone", "in", Object.keys(itemDicts))))).docs;
+      usersData.map((doc) => {
+        const data = doc.data() as IUser;
+        itemDicts[data.phone].user = data;
+      });
+      const newItems = Object.values(itemDicts).map((v) => v);
+      newItems.sort((i1, i2) => Number(i2.createdAt) - Number(i1.createdAt));
+      setItems(newItems);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const onGoProfile = () => navigation.navigate("User");
 
-  useEffect(() => {
-    const loadHistory = async () => {
-      // (async () => {
-      //   await createUsers();
-      //   await createChats();
-      // })();
-      const messRef = collection(firestore, "chats");
-      const userToFrQ = query(messRef, where("from", "==", user.phone));
-      const frToUserQ = query(messRef, where("to", "==", user.phone));
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      loadHistory();
+    });
 
-      try {
-        const [userToFrData, frToUserData] = await Promise.all([getDocs(userToFrQ), getDocs(frToUserQ)]);
-        const itemDicts: { [key: string]: ChatItem } = {};
-        userToFrData.forEach((mess) => {
-          const data = mess.data() as IChat;
-          if (!itemDicts[data.to] || moment((data.createdAt as any).toDate()).isAfter(itemDicts[data.to].createdAt)) {
-            itemDicts[data.to] = {
-              name: data.to,
-              createdAt: (data.createdAt as any).toDate(),
-              text: data.text,
-            };
-          }
-        });
-        frToUserData.forEach((mess) => {
-          const data = mess.data() as IChat;
-          if (
-            !itemDicts[data.from] ||
-            moment((data.createdAt as any).toDate()).isAfter(itemDicts[data.from].createdAt)
-          ) {
-            itemDicts[data.from] = {
-              name: data.from,
-              createdAt: (data.createdAt as any).toDate(),
-              text: data.text,
-            };
-          }
-        });
-        const newItems = Object.values(itemDicts).map((v) => v);
-        newItems.sort((i1, i2) => Number(i2.createdAt) - Number(i1.createdAt));
-        setItems(newItems);
-      } catch (err) {
-        console.log(err);
-      }
-    };
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
     loadHistory();
     return () => {};
   }, []);
@@ -97,7 +107,7 @@ export default function ListMassage() {
             createdAt={item.createdAt}
             key={item.createdAt.toISOString() + item.name}
             avt={require("../../../assets/images/avartar.png")}
-            name={item.name}
+            name={`${item.user?.firstName} ${item.user?.lastName}`}
             content={item.text}
             onPress={goChat(item.name)}
           />
