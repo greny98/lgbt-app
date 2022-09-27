@@ -12,24 +12,31 @@ import HbdVerification from "../screens/Auth/HbdVerification";
 import GenderVerification from "../screens/Auth/GenderVerification";
 import SexVerification from "../screens/Auth/SexVerification";
 import ShowVerification from "../screens/Auth/ShowVerification";
+import SchoolVerification from "../screens/Auth/SchoolVerification";
+import InterestsVerification from "../screens/Auth/InterestsVerification";
+import HomeVerification from "../screens/Auth/HomeVerification";
+import Slide from "../screens/Auth/Slide";
 
 
 const Stack = createNativeStackNavigator();
 
 export default function AuthStack() {
   return (
-    <Stack.Navigator initialRouteName="NameVerification">
-      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName="HomeVerification">
+      {/* <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="PhoneVerification" component={PhoneVerification} options={{ headerShown: false }} />
       <Stack.Screen name="CodeVerification" component={CodeVerification} options={{ headerShown: false }} />
       <Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }} />
-      <Stack.Screen name="WelcomeVerification" component={WelcomeVerification} options={{ headerShown: false }} />
+      <Stack.Screen name="WelcomeVerification" component={WelcomeVerification} options={{ headerShown: false }} /> */}
       <Stack.Screen name="NameVerification" component={NameVerification} options={{ headerShown: false }} />
       <Stack.Screen name="HbdVerification" component={HbdVerification} options={{ headerShown: false }} />
       <Stack.Screen name="GenderVerification" component={GenderVerification} options={{ headerShown: false }} />
       <Stack.Screen name="SexVerification" component={SexVerification} options={{ headerShown: false }} />
       <Stack.Screen name="ShowVerification" component={ShowVerification} options={{ headerShown: false }} />
-      <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
+      <Stack.Screen name="SchoolVerification" component={SchoolVerification} options={{ headerShown: false }} />
+      <Stack.Screen name="InterestsVerification" component={InterestsVerification} options={{ headerShown: false }} />
+      <Stack.Screen name="HomeVerification" component={HomeVerification} options={{ headerShown: false }} />
+      {/* <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} /> */}
     </Stack.Navigator>
   );
 }
