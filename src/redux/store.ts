@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import errorReducer from "./error.reducer";
 import loadingReducer from "./loading.reducer";
-import userReducer from "./user.reducer";
+import userReducer, { fetchUser } from "./user.reducer";
 
 const store = configureStore({
   reducer: {
@@ -9,6 +9,13 @@ const store = configureStore({
     loading: loadingReducer,
     error: errorReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these action types
+        ignoredActions: ["user/fetchUser"],
+      },
+    }),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

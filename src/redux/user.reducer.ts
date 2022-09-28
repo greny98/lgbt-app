@@ -29,7 +29,8 @@ export const fetchUser = createAsyncThunk<IUser | null, string>("user/fetchUser"
   const data = await getDocs(q);
   dispatch(removeLoading());
   if (data.docs && data.docs.length) {
-    return { ...data.docs[0].data(), id: data.docs[0].id } as IUser;
+    const userInfo = data.docs[0].data() as IUser;
+    return { ...userInfo, id: data.docs[0].id, birthday: (userInfo.birthday as any).toDate().toISOString() } as IUser;
   }
   return null;
 });

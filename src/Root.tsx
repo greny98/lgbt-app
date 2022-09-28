@@ -8,9 +8,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import AuthStack from "./navigations/AuthStack";
 import Loading from "./screens/Loading";
-import { EFetchStatus, fetchUser } from "./redux/user.reducer";
+import { fetchUser } from "./redux/user.reducer";
 import Explore from "./screens/Explore";
-import { createChats, createUsers, users } from "./mockup";
 import MessageStack from "./navigations/MessageStack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
@@ -45,12 +44,10 @@ const options = (props: TabOptions): BottomTabNavigationOptions => {
     tabBarShowLabel: false,
   };
 };
-(async () => {
-  await createUsers();
-  await createChats();
-})();
+
 export default function Root() {
   const user = useSelector<RootState>((state) => state.user.user);
+  const loading = useSelector<RootState>((state) => state.loading.loading);
   const dispatch = useDispatch<any>();
 
   useEffect(() => {
@@ -67,17 +64,13 @@ export default function Root() {
 
   return (
     <>
+      {loading && <Loading />}
       <NavigationContainer>
         {user ? (
-          <Tab.Navigator initialRouteName="Message">
+          <Tab.Navigator initialRouteName="User">
             <Tab.Screen name="Home" component={Home} options={options} />
             <Tab.Screen name="Grid" component={Explore} options={options} />
-            <Tab.Screen
-              name="Message"
-              component={MessageStack}
-              options={options}
-              initialParams={{ fr: users[1].phone }}
-            />
+            <Tab.Screen name="Message" component={MessageStack} options={options} />
             <Tab.Screen name="User" component={UserHome} options={options} />
           </Tab.Navigator>
         ) : (

@@ -60,6 +60,7 @@ export default function ListMassage() {
           };
         }
       });
+      if (Object.keys(itemDicts).length === 0) return;
       const usersData = (await getDocs(query(userRef, where("phone", "in", Object.keys(itemDicts))))).docs;
       usersData.map((doc) => {
         const data = doc.data() as IUser;
