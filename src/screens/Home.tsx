@@ -6,17 +6,16 @@ import { IUser } from "../@types";
 import { Heading, View } from "native-base";
 import { useDispatch } from "react-redux";
 import { removeUser } from "../redux/user.reducer";
+import UploadImage from "../components/UploadImage";
 
 export default function Home() {
   const user = useSelector<RootState, IUser>((state) => state.user.user!);
   const dispatch = useDispatch<any>();
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {/* <Heading>{user.firstName}</Heading>
-      <Heading>{user.lastName}</Heading> */}
-      <TouchableOpacity onPress={() => dispatch(removeUser())}>
-        <Text>Test</Text>
-      </TouchableOpacity>
+    <View
+      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+    >
+      <UploadImage/>
     </View>
   );
 }
