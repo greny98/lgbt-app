@@ -18,16 +18,17 @@ import HomeVerification from "../screens/Auth/HomeVerification";
 import Slide from "../screens/Auth/Slide";
 
 
+
 const Stack = createNativeStackNavigator();
 
 export default function AuthStack() {
   return (
-    <Stack.Navigator initialRouteName="HomeVerification">
-      {/* <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+    <Stack.Navigator initialRouteName="Login">
+      <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="PhoneVerification" component={PhoneVerification} options={{ headerShown: false }} />
       <Stack.Screen name="CodeVerification" component={CodeVerification} options={{ headerShown: false }} />
       <Stack.Screen name="EmailVerification" component={EmailVerification} options={{ headerShown: false }} />
-      <Stack.Screen name="WelcomeVerification" component={WelcomeVerification} options={{ headerShown: false }} /> */}
+      <Stack.Screen name="WelcomeVerification" component={WelcomeVerification} options={{ headerShown: false }} />
       <Stack.Screen name="NameVerification" component={NameVerification} options={{ headerShown: false }} />
       <Stack.Screen name="HbdVerification" component={HbdVerification} options={{ headerShown: false }} />
       <Stack.Screen name="GenderVerification" component={GenderVerification} options={{ headerShown: false }} />
@@ -35,8 +36,7 @@ export default function AuthStack() {
       <Stack.Screen name="ShowVerification" component={ShowVerification} options={{ headerShown: false }} />
       <Stack.Screen name="SchoolVerification" component={SchoolVerification} options={{ headerShown: false }} />
       <Stack.Screen name="InterestsVerification" component={InterestsVerification} options={{ headerShown: false }} />
-      <Stack.Screen name="HomeVerification" component={HomeVerification} options={{ headerShown: false }} />
-      {/* <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} /> */}
+      <Stack.Screen name="Signup" component={Signup} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }

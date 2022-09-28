@@ -15,6 +15,8 @@ export interface SlideProps extends ViewProps {
 }
 
 const screenWidth = Dimensions.get("screen").width;
+const screenHeight = Dimensions.get("screen").height;
+
 
 export default function Slide(props: SlideProps) {
   const { data, showNum, style, ...rest } = props;
@@ -24,14 +26,15 @@ export default function Slide(props: SlideProps) {
     <View style={[styles.memberImageWrapper, style]} {...rest}>
       <Carousel
         data={data}
-        layout="default"
+        layout={'tinder'}
+        // layoutCardOffset={9}
         renderItem={({ item, index }) => (
-          <Image source={item} key={ `item${index}`} />
+          <Image source={item} key={ `item${index}`} height={screenHeight*0.75} />
         )}
         itemWidth={Math.round(screenWidth)}
         sliderWidth={screenWidth}
       />
-      {showNum && (
+      {/* {showNum && (
         <HStack justifyContent="space-around" width={100}>
           {data.map((_, i) => (
             <Box
@@ -44,7 +47,7 @@ export default function Slide(props: SlideProps) {
             />
           ))}
         </HStack>
-      )}
+      )} */}
     </View>
   );
 }
