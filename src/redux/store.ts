@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import errorReducer from "./error.reducer";
 import loadingReducer from "./loading.reducer";
 import userReducer from "./user.reducer";
 
@@ -6,6 +7,7 @@ const store = configureStore({
   reducer: {
     user: userReducer,
     loading: loadingReducer,
+    error: errorReducer,
   },
 });
 
