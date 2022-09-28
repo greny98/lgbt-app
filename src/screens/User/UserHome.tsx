@@ -1,11 +1,16 @@
 import { Text, ImageBackground, TouchableOpacity, Dimensions, StatusBar, Platform, StyleSheet } from "react-native";
 import React from "react";
 import { Image, View } from "native-base";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { IUser } from "../../@types";
+import moment from "moment";
 
 const logoW = Dimensions.get("screen").width * 0.5;
 const logoH = (994 / 2596) * logoW;
 
 const UserHome = () => {
+  const user = useSelector<RootState, IUser>((state) => state.user.user!);
   return (
     <View>
       <StatusBar barStyle="dark-content" />

@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StatusBar } from "react-native";
+import { View, Text, TouchableOpacity, StatusBar, Keyboard } from "react-native";
 import React, { useState } from "react";
 import { Input } from "native-base";
 import { AntDesign } from "@expo/vector-icons";
@@ -43,6 +43,8 @@ const CodeVerification = () => {
       dispatch(removeLoading());
     } catch (err: any) {
       dispatch({ type: setError.toString(), payload: { text: "Nhập sai mã OTP" } });
+      console.log(err);
+
       dispatch(removeLoading());
     }
   };
@@ -50,7 +52,7 @@ const CodeVerification = () => {
     <>
       {loading && <Loading />}
       {error.show && <Error />}
-      <View style={{ height: "100%" }}>
+      <View style={{ height: "100%" }} onTouchStart={Keyboard.dismiss}>
         <StatusBar barStyle="dark-content" />
         <View style={{ width: "100%" }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -59,8 +61,8 @@ const CodeVerification = () => {
         </View>
         <View style={{ width: "80%", marginHorizontal: "10%" }}>
           <Text style={{ fontSize: 26, fontWeight: "700" }}>Mã của tôi là</Text>
-          <View style={{ flexDirection: "row", width: "100%" }}>
-            <Input placeholder="" variant="underlined" marginX={1} w="100%" onChangeText={setCode} />
+          <View style={{ flexDirection: "row", width: "100%", marginTop: 16 }}>
+            <Input placeholder="Code" fontSize={16} variant="underlined" w="100%" onChangeText={setCode} />
           </View>
         </View>
 
