@@ -1,11 +1,16 @@
 import { Text, ImageBackground, TouchableOpacity, Dimensions, StatusBar, Platform } from "react-native";
 import React from "react";
 import { Image, View } from "native-base";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { IUser } from "../../@types";
+import moment from "moment";
 
 const logoW = Dimensions.get("screen").width * 0.5;
 const logoH = (994 / 2596) * logoW;
 
 const UserHome = () => {
+  const user = useSelector<RootState, IUser>((state) => state.user.user!);
   return (
     <View>
       <StatusBar barStyle="dark-content" />
@@ -42,7 +47,9 @@ const UserHome = () => {
             style={{ width: 137, height: 137, position: "absolute", top: 18 }}
           />
           <View style={{ flexDirection: "row", alignItems: "center", marginVertical: 30 }}>
-            <Text style={{ fontSize: 24, fontWeight: "700", color: "#F5344B", marginRight: 10 }}>Tr Vu, 30</Text>
+            <Text style={{ fontSize: 24, fontWeight: "700", color: "#F5344B", marginRight: 10 }}>
+              {`${user.firstName} ${user.lastName}`}, {moment(new Date()).diff(user.birthday, "year")}
+            </Text>
             <ImageBackground source={require("../../../assets/images/star.png")} style={{ width: 22, height: 22 }} />
           </View>
         </View>

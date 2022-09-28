@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, StyleSheet, Text, StatusBar } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Text, StatusBar, Keyboard } from "react-native";
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Input } from "native-base";
@@ -21,17 +21,19 @@ const PhoneVerification = () => {
   const recaptchaVerifier = React.useRef<ApplicationVerifier | null>(null);
   const dispatch = useDispatch();
   const loading = useSelector<RootState>((state) => state.loading.loading);
-  const error = useSelector<RootState, IErrorState>((state) => state.error);  
+  const error = useSelector<RootState, IErrorState>((state) => state.error);
 
   const phoneVerify = async () => {
     try {
-      dispatch(setLoading());
-      const phoneProvider = new PhoneAuthProvider(firebaseAuth);
-      const verificationId = await phoneProvider.verifyPhoneNumber("+84" + phone, recaptchaVerifier.current!);
-      dispatch(removeLoading());
-      navigation.navigate("CodeVerification", { verificationId, phone: "+84" + phone });
-    } catch {
+      // dispatch(setLoading());
+      // const phoneProvider = new PhoneAuthProvider(firebaseAuth);
+      // const verificationId = await phoneProvider.verifyPhoneNumber("+84" + phone, recaptchaVerifier.current!);
+      // dispatch(removeLoading());
+      // navigation.navigate("CodeVerification", { verificationId, phone: "+84" + phone });
+      navigation.navigate("NameVerification", { phone: "+84" + phone });
+    } catch (err) {
       dispatch({ type: setError.toString(), payload: { text: "Số điện thoại không hợp lệ!" } });
+      console.log(err);
       dispatch(removeLoading());
     }
   };
@@ -40,7 +42,7 @@ const PhoneVerification = () => {
       {loading && <Loading />}
       {error.show && <Error />}
 
-      <View style={{ height: "100%", alignItems: "center" }}>
+      <View style={{ height: "100%", alignItems: "center" }} onTouchStart={Keyboard.dismiss}>
         <StatusBar barStyle="dark-content" />
         <FirebaseRecaptchaVerifierModal
           ref={recaptchaVerifier as any}
