@@ -69,7 +69,7 @@ export default function Root() {
       {loading && <Loading />}
       <NavigationContainer>
         {user ? (
-          <Tab.Navigator initialRouteName="User">
+          <Tab.Navigator initialRouteName="Home">
             <Tab.Screen name="Home" component={Home} options={options} />
             <Tab.Screen name="Grid" component={ProfileImages} options={options} />
             <Tab.Screen name="Message" component={MessageStack} options={options} />

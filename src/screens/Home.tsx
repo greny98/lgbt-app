@@ -1,53 +1,59 @@
-import { Text, StyleSheet, TouchableOpacity, Dimensions, StatusBar, Platform } from "react-native";
+import { StyleSheet, Dimensions, StatusBar, Platform } from "react-native";
 import React, { useEffect, useState } from "react";
-import Slide from "./Auth/Slide";
-import { Image, View } from "native-base";
-import { collection, doc, getDocs, query, where } from "firebase/firestore";
+import { Image, Text, View } from "native-base";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { firestore } from "../firebase/config";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
-import { IUser } from "../@types";
+import { EMatchingStatus, IMatching, IUser } from "../@types";
 import { useDispatch } from "react-redux";
 import { removeLoading, setLoading } from "../redux/loading.reducer";
 import CardStack, { Card } from "react-native-card-stack-swiper";
-import CardItem from "../components/CardItem";
+import CardItem, { ESwipeDirection } from "../components/CardItem";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "./Loading";
-
-const data = [
-  require("../../assets/ltkh.png"),
-  require("../../assets/ltkh.png"),
-  require("../../assets/ltkh.png"),
-  // require("../../assets/ltkh.png"),
-  // require("../../assets/ltkh.png"),
-  // require("../../assets/ltkh.png"),
-  // require("../../assets/ltkh.png"),
-  // require("../../assets/ltkh.png"),
-  // require("../../assets/ltkh.png"),
-];
+import { async } from "@firebase/util";
+import moment from "moment";
+import { setNewMatching } from "../redux/matching.reducer";
 
 const logoW = Dimensions.get("screen").width * 0.5;
 const logoH = (994 / 2596) * logoW;
+const matchingRef = collection(firestore, "matchings");
+const chatRef = collection(firestore, "chats");
 
 const HomeVerification = () => {
   const user = useSelector<RootState, IUser>((state) => state.user.user!);
   const [swiper, setSwiper] = useState<CardStack | null>(null);
   const navigation = useNavigation<any>();
   const loading = useSelector<RootState>((state) => state.loading.loading);
-
   const [otherUsers, setOtherUsers] = useState<IUser[]>([]);
   const dispatch = useDispatch<any>();
+  const [swipeDirection, setSwipeDirection] = useState<ESwipeDirection>(ESwipeDirection.NONE);
+
   const loadUsers = async () => {
     dispatch(setLoading());
     const userRef = collection(firestore, "users");
-    const q = query(userRef, where("phone", "!=", user.phone));
-    const users = (await getDocs(q)).docs.map((doc) => doc.data() as IUser);
-    setOtherUsers(users);
-    console.log(users);
-
+    const qU = query(userRef, where("phone", "!=", user.phone));
+    const qM = query(matchingRef, where("from", "==", user.phone));
+    let users = (await getDocs(qU)).docs.map((doc) => {
+      const data = doc.data() as IUser;
+      return { ...data, birthday: (data.birthday as any).toDate() };
+    });
+    const likedDict: { [key: string]: boolean } = {};
+    
+    (await getDocs(qM)).docs.forEach((doc) => {
+      const match = doc.data() as IMatching;
+      likedDict[match.to] = true;
+    });
+    const filtered: IUser[] = [];
+    users.forEach((u) => {
+      if (!likedDict[u.phone]) filtered.push(u);
+    });
+    setOtherUsers(filtered);
     dispatch(removeLoading());
   };
-  React.useEffect(() => {
+
+  useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
       loadUsers();
     });
@@ -59,6 +65,48 @@ const HomeVerification = () => {
     loadUsers();
     return () => {};
   }, []);
+
+  const onSwipe = (corrX: number) => {
+    if (corrX < -50) {
+      setSwipeDirection(ESwipeDirection.LEFT);
+    } else if (corrX > 50) {
+      setSwipeDirection(ESwipeDirection.RIGHT);
+    }
+  };
+
+  const onSwipedLeft = async (i: number) => {
+    const fr = otherUsers[i];
+    const qToU = query(matchingRef, where("from", "==", fr.phone), where("to", "==", user.phone));
+    const toU = (await getDocs(qToU)).docs[0];
+    if (toU) {
+      // Match
+      await deleteDoc(doc(matchingRef, toU.id));
+    }
+  };
+
+  const onSwipedRight = async (i: number) => {
+    const fr = otherUsers[i];
+    const qToU = query(matchingRef, where("from", "==", fr.phone), where("to", "==", user.phone));
+    const toU = (await getDocs(qToU)).docs[0];
+    if (toU) {
+      // Match
+      await setDoc(doc(matchingRef, toU.id), { from: fr.phone, to: user.phone, status: EMatchingStatus.ACCEPTED });
+      await addDoc(matchingRef, {
+        from: user.phone,
+        to: fr.phone,
+        status: EMatchingStatus.ACCEPTED,
+      });
+      await addDoc(chatRef, {
+        createdAt: new Date(),
+        from: user.phone,
+        to: fr.phone,
+        text: "Xin chào, chúng mình vừa match nhau!",
+      });
+      dispatch(setNewMatching());
+    } else {
+      await addDoc(matchingRef, { from: user.phone, to: fr.phone, status: EMatchingStatus.WAIT });
+    }
+  };
 
   return loading ? (
     <Loading />
@@ -75,71 +123,49 @@ const HomeVerification = () => {
             h={logoH}
             zIndex={100}
             backgroundColor={"red"}
-            // position={'absolute'}
             top={0}
           />
         </View>
       </View>
 
-      {/* <Slide data={data} /> */}
-      <CardStack
-        loop
-        verticalSwipe={false}
-        renderNoMoreCards={() => null}
-        ref={(newSwiper): void => setSwiper(newSwiper)}
-      >
-        {otherUsers.map((item) => (
-          <Card key={item.phone}>
-            <CardItem
-              hasActions
-              image={require("../../assets/ltkh.png")}
-              name={`${item.firstName} ${item.lastName}`}
-              // description={item.description}
-              // matches={item.match}
-            />
-          </Card>
-        ))}
-      </CardStack>
-      {/* <View style={styles.information}>
-        <View style={styles.info}>
-          <View>
-            <Text style={styles.name}>Lê Thị Khánh Huyền 19</Text>
-            <View style={styles.form}>
-              <Entypo name="dot-single" size={24} color="white" style={styles.icon} />
-              <Text style={styles.action}>Có hoạt động gần đây</Text>
-            </View>
-            <View style={styles.enviromento}>
-              <AntDesign name="enviromento" size={24} color="white" style={styles.icon} />
-              <Text style={styles.action}>cách xa 3 km</Text>
-            </View>
+      <View>
+        {/* {swipeDirection == ESwipeDirection.LEFT && (
+          <View
+            style={[
+              {
+                borderColor: "red",
+                right: 40,
+                top: 40,
+                transform: [{ rotate: "15deg" }],
+              },
+              styles.tag,
+            ]}
+          >
+            <Text style={{ fontSize: 28, color: "red" }}>NOPE</Text>
           </View>
-          <View style={{ flex: 1 }}></View>
-          <View style={{ marginTop: 20 }}>
-            <AntDesign name="exclamationcircle" size={30} color="white" />
-          </View>
-        </View>
-
-        <View style={styles.button}>
-          <TouchableOpacity style={styles.border}>
-            <Fontisto name="arrow-return-left" size={24} color="yellow" />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.border}>
-            <AntDesign name="close" size={24} color="yellow" />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.border}>
-            <MaterialIcons name="star" size={24} color="yellow" />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.border}>
-            <AntDesign name="heart" size={24} color="yellow" />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.border}>
-            <MaterialCommunityIcons name="lightning-bolt" size={24} color="yellow" />
-          </TouchableOpacity>
-        </View>
-      </View> */}
+        )} */}
+        <CardStack
+          // loop
+          verticalSwipe={false}
+          renderNoMoreCards={() => null}
+          ref={(newSwiper): void => setSwiper(newSwiper)}
+          onSwipedLeft={onSwipedLeft}
+          onSwipedRight={onSwipedRight}
+          onSwipe={onSwipe}
+        >
+          {otherUsers.map((item) => (
+            <Card key={item.phone}>
+              <CardItem
+                hasActions
+                image={require("../../assets/ltkh.png")}
+                name={`${item.firstName} ${item.lastName}`}
+                description={`${moment(new Date()).diff(item.birthday, "year")}, ${item.gender}`}
+                // matches={item.match}
+              />
+            </Card>
+          ))}
+        </CardStack>
+      </View>
     </View>
   );
 };
@@ -213,5 +239,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+  },
+  tag: {
+    position: "absolute",
+    width: 150,
+    height: 75,
+    zIndex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 16,
+    borderWidth: 4,
+    opacity: 0.6,
   },
 });

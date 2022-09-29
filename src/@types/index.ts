@@ -23,3 +23,14 @@ export interface IChat {
   text: string;
   createdAt: Date;
 }
+
+export enum EMatchingStatus {
+  WAIT,
+  ACCEPTED,
+  REJECTED,
+}
+export interface IMatching {
+  from: string;
+  to: string;
+  status: EMatchingStatus;
+}
