@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Input } from "native-base";
 import { LinearGradient } from "expo-linear-gradient";
-import { firebaseApp, firebaseAuth } from "../../firebase/config";
+import { firebaseApp, firebaseAuth, firestore } from "../../firebase/config";
 import { ApplicationVerifier, PhoneAuthProvider } from "firebase/auth";
 import { FirebaseRecaptchaVerifierModal } from "expo-firebase-recaptcha";
 import { useNavigation } from "@react-navigation/native";
@@ -14,12 +14,15 @@ import { RootState } from "../../redux/store";
 import Loading from "../Loading";
 import { IErrorState, setError } from "../../redux/error.reducer";
 import Error from "../Error";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { collection, doc, getDoc, setDoc } from "firebase/firestore";
+import { fetchUser } from "../../redux/user.reducer";
 
 const PhoneVerification = () => {
   const navigation = useNavigation<any>();
   const [phone, setPhone] = useState("");
   const recaptchaVerifier = React.useRef<ApplicationVerifier | null>(null);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
   const loading = useSelector<RootState>((state) => state.loading.loading);
   const error = useSelector<RootState, IErrorState>((state) => state.error);
 
@@ -30,7 +33,17 @@ const PhoneVerification = () => {
       // const verificationId = await phoneProvider.verifyPhoneNumber("+84" + phone, recaptchaVerifier.current!);
       // dispatch(removeLoading());
       // navigation.navigate("CodeVerification", { verificationId, phone: "+84" + phone });
-      navigation.navigate("NameVerification", { phone: "+84" + phone });
+      const userRef = collection(firestore, "users");
+      const data = await getDoc(doc(userRef, "+84" + phone));
+      if (!data.data()) {
+        const userRef = collection(firestore, "users");
+        await setDoc(doc(userRef, "+84" + phone), { phone: "+84" + phone });
+        navigation.navigate("NameVerification", { phone: "+84" + phone });
+      } else {
+        await AsyncStorage.setItem("phone", "+84" + phone);
+        await dispatch(fetchUser("+84" + phone));
+      }
+      // navigation.navigate("NameVerification", { phone: "+84" + phone });
     } catch (err) {
       dispatch({ type: setError.toString(), payload: { text: "Số điện thoại không hợp lệ!" } });
       console.log(err);

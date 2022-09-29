@@ -7,7 +7,6 @@
 import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
-  Text,
   View,
   Button,
   Image,
@@ -15,9 +14,8 @@ import {
   Platform,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import { storage } from "../firebase/config";
-import { firebaseConfig } from "../firebase/config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage } from "../firebase/config";
 
 export default function UploadImage() {
   const [image, setImage] = useState("");

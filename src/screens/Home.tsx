@@ -1,22 +1,18 @@
-import {
-  Text,
-  ImageBackground,
-  StyleSheet,
-  TouchableOpacity,
-  Dimensions,
-  Platform,
-  StatusBar,
-} from "react-native";
-import React from "react";
-import { AntDesign } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { Entypo } from "@expo/vector-icons";
-import { Octicons } from "@expo/vector-icons";
-import { Fontisto } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Text, StyleSheet, TouchableOpacity, Dimensions, StatusBar, Platform } from "react-native";
+import React, { useEffect, useState } from "react";
 import Slide from "./Auth/Slide";
 import { Image, View } from "native-base";
+import { collection, doc, getDocs, query, where } from "firebase/firestore";
+import { firestore } from "../firebase/config";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { IUser } from "../@types";
+import { useDispatch } from "react-redux";
+import { removeLoading, setLoading } from "../redux/loading.reducer";
+import CardStack, { Card } from "react-native-card-stack-swiper";
+import CardItem from "../components/CardItem";
+import { useNavigation } from "@react-navigation/native";
+import Loading from "./Loading";
 
 const data = [
   require("../../assets/ltkh.png"),
@@ -34,9 +30,41 @@ const logoW = Dimensions.get("screen").width * 0.5;
 const logoH = (994 / 2596) * logoW;
 
 const HomeVerification = () => {
-  return (
+  const user = useSelector<RootState, IUser>((state) => state.user.user!);
+  const [swiper, setSwiper] = useState<CardStack | null>(null);
+  const navigation = useNavigation<any>();
+  const loading = useSelector<RootState>((state) => state.loading.loading);
+
+  const [otherUsers, setOtherUsers] = useState<IUser[]>([]);
+  const dispatch = useDispatch<any>();
+  const loadUsers = async () => {
+    dispatch(setLoading());
+    const userRef = collection(firestore, "users");
+    const q = query(userRef, where("phone", "!=", user.phone));
+    const users = (await getDocs(q)).docs.map((doc) => doc.data() as IUser);
+    setOtherUsers(users);
+    console.log(users);
+
+    dispatch(removeLoading());
+  };
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      loadUsers();
+    });
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
+    loadUsers();
+    return () => {};
+  }, []);
+
+  return loading ? (
+    <Loading />
+  ) : (
     <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
+      <StatusBar barStyle={Platform.OS === "android" ? "light-content" : "dark-content"} />
       <View height={Platform.OS == "android" ? 7 : 50} />
       <View style={styles.logo}>
         <View>
@@ -46,35 +74,42 @@ const HomeVerification = () => {
             w={logoW}
             h={logoH}
             zIndex={100}
-            backgroundColor={'red'}
+            backgroundColor={"red"}
             // position={'absolute'}
             top={0}
           />
         </View>
       </View>
 
-      <Slide data={data} />
-
-      <View style={styles.information}>
+      {/* <Slide data={data} /> */}
+      <CardStack
+        loop
+        verticalSwipe={false}
+        renderNoMoreCards={() => null}
+        ref={(newSwiper): void => setSwiper(newSwiper)}
+      >
+        {otherUsers.map((item) => (
+          <Card key={item.phone}>
+            <CardItem
+              hasActions
+              image={require("../../assets/ltkh.png")}
+              name={`${item.firstName} ${item.lastName}`}
+              // description={item.description}
+              // matches={item.match}
+            />
+          </Card>
+        ))}
+      </CardStack>
+      {/* <View style={styles.information}>
         <View style={styles.info}>
           <View>
             <Text style={styles.name}>Lê Thị Khánh Huyền 19</Text>
             <View style={styles.form}>
-              <Entypo
-                name="dot-single"
-                size={24}
-                color="white"
-                style={styles.icon}
-              />
+              <Entypo name="dot-single" size={24} color="white" style={styles.icon} />
               <Text style={styles.action}>Có hoạt động gần đây</Text>
             </View>
             <View style={styles.enviromento}>
-              <AntDesign
-                name="enviromento"
-                size={24}
-                color="white"
-                style={styles.icon}
-              />
+              <AntDesign name="enviromento" size={24} color="white" style={styles.icon} />
               <Text style={styles.action}>cách xa 3 km</Text>
             </View>
           </View>
@@ -101,14 +136,10 @@ const HomeVerification = () => {
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.border}>
-            <MaterialCommunityIcons
-              name="lightning-bolt"
-              size={24}
-              color="yellow"
-            />
+            <MaterialCommunityIcons name="lightning-bolt" size={24} color="yellow" />
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
     </View>
   );
 };
@@ -117,16 +148,14 @@ export default HomeVerification;
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
-    position: "relative",
-    alignItems: "center",
+    flex: 1,
+    paddingHorizontal: 20,
   },
 
-  logo: { 
-    width: "100%", 
-    alignItems: "center", 
-    marginBottom: 10 
+  logo: {
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 32,
   },
 
   information: {
@@ -178,11 +207,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 5,
-  }, 
+  },
 
   info: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-}
+  },
 });
