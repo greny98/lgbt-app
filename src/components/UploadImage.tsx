@@ -8,14 +8,17 @@ import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
-  Button,
+  Text,
   Image,
   ActivityIndicator,
   Platform,
+  TouchableOpacity
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/config";
+import { AntDesign } from "@expo/vector-icons";
+import { relativeTimeRounding } from "moment";
 
 export default function UploadImage() {
   const [image, setImage] = useState("");
@@ -32,21 +35,30 @@ export default function UploadImage() {
     })();
   }, []);
 
-  const pickImage = async () => {
+  // const pickImage = async () => {
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //     quality: 1,
+  //   });
+
+  //   if (!result.cancelled) {
+  //     setImage(result.uri);
+  //   }
+  // };
+
+  const uploadImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-    // console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
     }
-  };
 
-  const uploadImage = async () => {
     const metadata = {
       contentType: "image/jpeg",
     };
@@ -90,23 +102,46 @@ export default function UploadImage() {
   };
 
   return (
-    <View style={styles.container}>
-      <Image source={{ uri: image }} style={{ width: 300, height: 300 }} />
-      <Button title="Choose picture" onPress={pickImage} />
-      {!uploading ? (
-        <Button title="Upload picture" onPress={uploadImage} />
-      ) : (
-        <ActivityIndicator size="large" color="#000" />
-      )}
+    <View style={{ height: 170, width: 140}}>
+      <View style={styles.container}>
+        <Image source={{ uri: image }} style={{ width: 120, height: 150, borderRadius: 10, zIndex: 0 }} />
+        {!uploading ? (
+          <TouchableOpacity style={styles.btn} onPress={uploadImage}>
+            <AntDesign
+              // style={styles.plus}
+              name="plus"
+              size={25}
+              color="white"
+            />
+          </TouchableOpacity>
+        ) : (
+          <ActivityIndicator size="large" color="#000" />
+        )}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
+    width: 120,
+    height: 150,
+    backgroundColor: "#ebecf0",
+    borderWidth: 3,
+    borderRadius: 10,
+    borderColor: "#e0e4e9",
+    borderStyle: "dashed",
+  },
+  btn: {
+    position: 'absolute',
+    bottom: -15,
+    right: -15,
+    width: 30,
+    height: 30,
+    borderRadius: 20,
+    backgroundColor: "#F5344B",
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 3
   },
 });

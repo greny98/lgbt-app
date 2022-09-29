@@ -15,6 +15,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useDispatch } from "react-redux";
 import { removeLoading, setLoading } from "./redux/loading.reducer";
 import UserHome from "./screens/User/UserHome";
+import ProfileImages from "./screens/Auth/Signup/ProfileImages";
+import UploadImage from "./components/UploadImage";
 
 // Navigation
 const Tab = createBottomTabNavigator();
@@ -69,7 +71,7 @@ export default function Root() {
         {user ? (
           <Tab.Navigator initialRouteName="User">
             <Tab.Screen name="Home" component={Home} options={options} />
-            <Tab.Screen name="Grid" component={Explore} options={options} />
+            <Tab.Screen name="Grid" component={ProfileImages} options={options} />
             <Tab.Screen name="Message" component={MessageStack} options={options} />
             <Tab.Screen name="User" component={UserHome} options={options} />
           </Tab.Navigator>
