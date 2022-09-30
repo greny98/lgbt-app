@@ -37,8 +37,8 @@ const PhoneVerification = () => {
       const data = await getDoc(doc(userRef, "+84" + phone));
       if (!data.data()) {
         const userRef = collection(firestore, "users");
-        await setDoc(doc(userRef, "+84" + phone), { phone: "+84" + phone });
-        navigation.navigate("NameVerification", { phone: "+84" + phone });
+        await setDoc(doc(userRef, "+84" + phone), { phone: "+84" + phone, images: ["", "", "", "", "", ""] });
+        navigation.navigate("NameVerification", { phone: "+84" + phone, images: ["", "", "", "", "", ""] });
       } else {
         await AsyncStorage.setItem("phone", "+84" + phone);
         await dispatch(fetchUser("+84" + phone));

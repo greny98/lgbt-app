@@ -12,7 +12,7 @@ export interface IUser {
   birthday: Date;
   city: string;
   country: string;
-  avt?: string;
+  images: string[];
   hobbies: string[];
 }
 

@@ -23,11 +23,9 @@ const initialState: IUserState = {
   status: null,
 };
 
-export const fetchUser = createAsyncThunk<IUser | null, string>("user/fetchUser", async (phone, { dispatch }) => {
-  dispatch(setLoading());
+export const fetchUser = createAsyncThunk<IUser | null, string>("user/fetchUser", async (phone, {dispatch}) => {
   const q = query(userCollectionRef, where("phone", "==", phone));
-  const data = await getDocs(q);
-  dispatch(removeLoading());
+  const data = await getDocs(q);  
   if (data.docs && data.docs.length) {
     const userInfo = data.docs[0].data() as IUser;
     return { ...userInfo, id: data.docs[0].id, birthday: (userInfo.birthday as any).toDate().toISOString() } as IUser;

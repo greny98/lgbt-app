@@ -37,10 +37,13 @@ const HomeVerification = () => {
     const qM = query(matchingRef, where("from", "==", user.phone));
     let users = (await getDocs(qU)).docs.map((doc) => {
       const data = doc.data() as IUser;
-      return { ...data, birthday: (data.birthday as any).toDate() };
+      if (!data.birthday) {
+        console.log("====== data", data);
+      }
+      return { ...data, birthday: new Date() };
     });
     const likedDict: { [key: string]: boolean } = {};
-    
+
     (await getDocs(qM)).docs.forEach((doc) => {
       const match = doc.data() as IMatching;
       likedDict[match.to] = true;

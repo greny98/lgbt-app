@@ -5,36 +5,33 @@
  */
 
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  ActivityIndicator,
-  Platform,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, View, Text, Image, ActivityIndicator, Platform, TouchableOpacity } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { firestore } from "../firebase/config";
-import { storage } from "../firebase/config";
+import { firestore, storage } from "../firebase/config";
 import { AntDesign } from "@expo/vector-icons";
-import Loading from "../screens/Loading";
-import { useSelector } from "react-redux";
-import { RootState } from "../redux/store";
-import {
-  ILoadingState,
-  removeLoading,
-  setLoading,
-} from "../redux/loading.reducer";
+import { removeLoading, setLoading } from "../redux/loading.reducer";
 import { useDispatch } from "react-redux";
 import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import { fetchUser, IUserState } from "../redux/user.reducer";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { IUser } from "../@types";
 
-export default function UploadImage(props: any) {
+export interface IUploadImageProps {
+  name: string;
+  index: number;
+}
+
+export default function UploadImage(props: IUploadImageProps) {
   const { name } = props;
-  const [image, setImage] = useState("");
+  console.log(name);
+
+  const [image, setImage] = useState(name);
   const [uploading, setUploading] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<any>();
+  const user = useSelector<RootState, IUserState>((state) => state.user);
 
   useEffect(() => {
     (async () => {
@@ -65,7 +62,7 @@ export default function UploadImage(props: any) {
     console.log("result.uri: ", result.uri);
 
     let imgName = result.uri.substring(result.uri.lastIndexOf("/") + 1);
-    const storageRef = ref(storage, `img${name}.jpg`);
+    const storageRef = ref(storage, `${user.user?.phone}img${props.index}.jpg`);
     dispatch(setLoading());
     const manipResult = await manipulateAsync(
       result.uri,
@@ -88,8 +85,7 @@ export default function UploadImage(props: any) {
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log("Upload is " + progress + "% done");
         console.log(snapshot.state);
 
@@ -118,25 +114,28 @@ export default function UploadImage(props: any) {
             break;
         }
       },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setImage(downloadURL);
-          dispatch(removeLoading());
-        });
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        const userRef = collection(firestore, "users");
+        const images = [...user.user!.images];
+        images[props.index] = downloadURL;
+        await setDoc(doc(userRef, user.user!.phone), {
+          ...user.user!,
+          images,
+          birthday: new Date(user.user!.birthday),
+        } as IUser);
+        await dispatch(fetchUser(user.user!.phone));
+        setImage(downloadURL);
+        dispatch(removeLoading());
       }
     );
   };
 
   return (
     <>
-      <View style={{padding: 10}}>
+      <View style={{ padding: 10 }}>
         <View style={styles.container}>
-          {!!image && (
-            <Image
-              source={{ uri: image }}
-              style={{ width: 110, height: 150, borderRadius: 10, zIndex: 0 }}
-            />
-          )}
+          {!!image.length && <Image source={{ uri: image }} style={{ width: 110, height: 150, borderRadius: 10, zIndex: 0 }} />}
           {!uploading ? (
             <TouchableOpacity style={styles.btn} onPress={uploadImage}>
               <AntDesign name="plus" size={20} color="#000" />
@@ -167,7 +166,7 @@ const styles = StyleSheet.create({
     width: 26,
     height: 26,
     borderRadius: 16,
-    borderColor: '#000',
+    borderColor: "#000",
     borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
