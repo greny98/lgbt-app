@@ -82,6 +82,8 @@ export default ProfileImages;
 
 const styles = StyleSheet.create({
   box_image: {
+    alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: "row",
     flexWrap: 'wrap',
     width: '100%',

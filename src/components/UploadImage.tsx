@@ -153,7 +153,7 @@ export default function UploadImage(props: any) {
 const styles = StyleSheet.create({
   container: {
     width: 120,
-    height: 150,
+    height: 160,
     backgroundColor: "#ebecf0",
     borderWidth: 3,
     borderRadius: 10,
