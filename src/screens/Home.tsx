@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions, StatusBar, Platform } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Image, Text, View } from "native-base";
+import { Image, View } from "native-base";
 import { addDoc, collection, deleteDoc, doc, getDocs, query, setDoc, where } from "firebase/firestore";
 import { firestore } from "../firebase/config";
 import { useSelector } from "react-redux";
@@ -12,7 +12,6 @@ import CardStack, { Card } from "react-native-card-stack-swiper";
 import CardItem, { ESwipeDirection } from "../components/CardItem";
 import { useNavigation } from "@react-navigation/native";
 import Loading from "./Loading";
-import { async } from "@firebase/util";
 import moment from "moment";
 import { setNewMatching } from "../redux/matching.reducer";
 
