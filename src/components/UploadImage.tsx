@@ -12,17 +12,29 @@ import {
   Image,
   ActivityIndicator,
   Platform,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { firestore } from "../firebase/config";
 import { storage } from "../firebase/config";
 import { AntDesign } from "@expo/vector-icons";
-import { relativeTimeRounding } from "moment";
+import Loading from "../screens/Loading";
+import { useSelector } from "react-redux";
+import { RootState } from "../redux/store";
+import {
+  ILoadingState,
+  removeLoading,
+  setLoading,
+} from "../redux/loading.reducer";
+import { useDispatch } from "react-redux";
+import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
 
-export default function UploadImage() {
+export default function UploadImage(props: any) {
+  const { name } = props;
   const [image, setImage] = useState("");
   const [uploading, setUploading] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -35,38 +47,43 @@ export default function UploadImage() {
     })();
   }, []);
 
-  // const pickImage = async () => {
-  //   let result = await ImagePicker.launchImageLibraryAsync({
-  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-  //     allowsEditing: true,
-  //     aspect: [4, 3],
-  //     quality: 1,
-  //   });
-
-  //   if (!result.cancelled) {
-  //     setImage(result.uri);
-  //   }
-  // };
-
   const uploadImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      aspect: [3, 4],
+      quality: 0.5,
     });
-    if (!result.cancelled) {
-      setImage(result.uri);
+    if (result.cancelled) {
+      console.log(result);
+      return;
     }
 
-    const metadata = {
-      contentType: "image/jpeg",
-    };
-    let imgName = image.substring(image.lastIndexOf("/") + 1);
-    const storageRef = ref(storage, `images/${imgName}`);
-    const img = await fetch(image);
+    // const metadata = {
+    //   contentType: "image/jpeg",
+    // };
+    console.log("result.uri: ", result.uri);
+
+    let imgName = result.uri.substring(result.uri.lastIndexOf("/") + 1);
+    const storageRef = ref(storage, `img${name}.jpg`);
+    dispatch(setLoading());
+    const manipResult = await manipulateAsync(
+      result.uri,
+      [
+        {
+          resize: { height: 512, width: 512 },
+        },
+      ],
+      {
+        compress: 1,
+        format: SaveFormat.PNG,
+      }
+    );
+
+    const img = await fetch(manipResult.uri);
     const blob = await img.blob();
-    const uploadTask = uploadBytesResumable(storageRef, blob, metadata);
+
+    const uploadTask = uploadBytesResumable(storageRef, blob);
 
     uploadTask.on(
       "state_changed",
@@ -74,6 +91,8 @@ export default function UploadImage() {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log("Upload is " + progress + "% done");
+        console.log(snapshot.state);
+
         switch (snapshot.state) {
           case "paused":
             console.log("Upload is paused");
@@ -81,9 +100,15 @@ export default function UploadImage() {
           case "running":
             console.log("Upload is running");
             break;
+          case "success":
+            console.log("Upload is success");
+            break;
         }
       },
       (error) => {
+        console.log("ERRRR", error);
+        dispatch(removeLoading());
+
         switch (error.code) {
           case "storage/unauthorized":
             break;
@@ -95,30 +120,33 @@ export default function UploadImage() {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log("File available at", downloadURL);
+          setImage(downloadURL);
+          dispatch(removeLoading());
         });
       }
     );
   };
 
   return (
-    <View style={{ height: 170, width: 140}}>
-      <View style={styles.container}>
-        <Image source={{ uri: image }} style={{ width: 120, height: 150, borderRadius: 10, zIndex: 0 }} />
-        {!uploading ? (
-          <TouchableOpacity style={styles.btn} onPress={uploadImage}>
-            <AntDesign
-              // style={styles.plus}
-              name="plus"
-              size={25}
-              color="white"
+    <>
+      <View style={{padding: 8}}>
+        <View style={styles.container}>
+          {!!image && (
+            <Image
+              source={{ uri: image }}
+              style={{ width: 120, height: 160, borderRadius: 10, zIndex: 0 }}
             />
-          </TouchableOpacity>
-        ) : (
-          <ActivityIndicator size="large" color="#000" />
-        )}
+          )}
+          {!uploading ? (
+            <TouchableOpacity style={styles.btn} onPress={uploadImage}>
+              <AntDesign name="plus" size={25} color="white" />
+            </TouchableOpacity>
+          ) : (
+            <ActivityIndicator size="large" color="#000" />
+          )}
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 
@@ -133,15 +161,15 @@ const styles = StyleSheet.create({
     borderStyle: "dashed",
   },
   btn: {
-    position: 'absolute',
+    position: "absolute",
     bottom: -15,
     right: -15,
     width: 30,
     height: 30,
     borderRadius: 20,
     backgroundColor: "#F5344B",
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 3
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 3,
   },
 });
