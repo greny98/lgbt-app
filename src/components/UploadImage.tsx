@@ -129,17 +129,17 @@ export default function UploadImage(props: any) {
 
   return (
     <>
-      <View style={{padding: 8}}>
+      <View style={{padding: 10}}>
         <View style={styles.container}>
           {!!image && (
             <Image
               source={{ uri: image }}
-              style={{ width: 120, height: 160, borderRadius: 10, zIndex: 0 }}
+              style={{ width: 110, height: 150, borderRadius: 10, zIndex: 0 }}
             />
           )}
           {!uploading ? (
             <TouchableOpacity style={styles.btn} onPress={uploadImage}>
-              <AntDesign name="plus" size={25} color="#000" />
+              <AntDesign name="plus" size={20} color="#000" />
             </TouchableOpacity>
           ) : (
             <ActivityIndicator size="large" color="#000" />
@@ -152,8 +152,8 @@ export default function UploadImage(props: any) {
 
 const styles = StyleSheet.create({
   container: {
-    width: 120,
-    height: 160,
+    width: 110,
+    height: 150,
     backgroundColor: "#ebecf0",
     borderWidth: 3,
     borderRadius: 10,
@@ -162,11 +162,11 @@ const styles = StyleSheet.create({
   },
   btn: {
     position: "absolute",
-    bottom: -15,
-    right: -15,
-    width: 30,
-    height: 30,
-    borderRadius: 20,
+    bottom: -13,
+    right: -13,
+    width: 26,
+    height: 26,
+    borderRadius: 16,
     borderColor: '#000',
     borderWidth: 2,
     alignItems: "center",

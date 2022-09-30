@@ -25,7 +25,7 @@ const ProfileImages = () => {
     <>
       {loading && <Loading />}
 
-      <View style={{ height: "100%" }}>
+      <View style={{ height: "100%", alignItems: 'center' }}>
         <StatusBar barStyle="dark-content" />
         <View style={{ width: "100%" }}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: "row",
     flexWrap: 'wrap',
-    width: '100%',
+    width: '95%',
     height: 350,
   },
 });
