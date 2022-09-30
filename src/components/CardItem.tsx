@@ -1,24 +1,26 @@
-import React from "react";
-import { Text, View, Image, Dimensions, TouchableOpacity } from "react-native";
+import React, { useEffect } from "react";
+import { Text, View, Image, Dimensions, TouchableOpacity, StyleSheet } from "react-native";
 import Icon from "./Icon";
-import { CardItemT } from "../types";
-import styles, {
-  DISLIKE_ACTIONS,
-  FLASH_ACTIONS,
-  LIKE_ACTIONS,
-  STAR_ACTIONS,
-  WHITE,
-} from "../../assets/styles";
+import styles, { DISLIKE_ACTIONS, FLASH_ACTIONS, LIKE_ACTIONS, STAR_ACTIONS, WHITE } from "../../assets/styles";
 
-const CardItem = ({
-  description,
-  hasActions,
-  hasVariant,
-  image,
-  isOnline,
-  matches,
-  name,
-}: CardItemT) => {
+export enum ESwipeDirection {
+  NONE,
+  LEFT,
+  RIGHT,
+}
+
+export type CardItemT = {
+  description?: string;
+  hasActions?: boolean;
+  hasVariant?: boolean;
+  image: any;
+  isOnline?: boolean;
+  matches?: string;
+  name: string;
+};
+
+const CardItem = (props: CardItemT) => {
+  const { description, hasActions, hasVariant, image, isOnline, matches, name } = props;
   // Custom styling
   const fullWidth = Dimensions.get("window").width;
 
@@ -39,10 +41,24 @@ const CardItem = ({
       fontSize: hasVariant ? 15 : 30,
     },
   ];
-  console.log("======");
-  
+
   return (
     <View style={[styles.containerCardItem]}>
+      {/* {swipeDirection == ESwipeDirection.LEFT && (
+        <View
+          style={[
+            {
+              borderColor: "red",
+              right: 40,
+              top: 40,
+              transform: [{ rotate: "15deg" }],
+            },
+            stylesExt.tag,
+          ]}
+        >
+          <Text style={{ fontSize: 28, color: "red" }}>NOPE</Text>
+        </View>
+      )} */}
       {/* IMAGE */}
       <Image source={image} style={imageStyle} />
 
@@ -59,17 +75,13 @@ const CardItem = ({
       <Text style={nameStyle}>{name}</Text>
 
       {/* DESCRIPTION */}
-      {description && (
-        <Text style={styles.descriptionCardItem}>{description}</Text>
-      )}
+      {description && <Text style={styles.descriptionCardItem}>{description}</Text>}
 
       {/* STATUS */}
       {!description && (
         <View style={styles.status}>
           <View style={isOnline ? styles.online : styles.offline} />
-          <Text style={styles.statusText}>
-            {isOnline ? "Online" : "Offline"}
-          </Text>
+          <Text style={styles.statusText}>{isOnline ? "Online" : "Offline"}</Text>
         </View>
       )}
 
@@ -98,3 +110,17 @@ const CardItem = ({
 };
 
 export default CardItem;
+
+const stylesExt = StyleSheet.create({
+  tag: {
+    position: "absolute",
+    width: 150,
+    height: 75,
+    zIndex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 16,
+    borderWidth: 4,
+    opacity: 0.6,
+  },
+});

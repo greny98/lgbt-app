@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import errorReducer from "./error.reducer";
 import loadingReducer from "./loading.reducer";
+import matchingReducer from "./matching.reducer";
 import userReducer, { fetchUser } from "./user.reducer";
 
 const store = configureStore({
@@ -8,6 +9,7 @@ const store = configureStore({
     user: userReducer,
     loading: loadingReducer,
     error: errorReducer,
+    matching: matchingReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

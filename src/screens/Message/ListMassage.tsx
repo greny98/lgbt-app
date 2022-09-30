@@ -13,6 +13,8 @@ import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import Loading from "../Loading";
+import { useDispatch } from "react-redux";
+import { removeNewMatching, setNewMatching } from "../../redux/matching.reducer";
 
 type ChatItem = {
   user?: IUser;
@@ -23,7 +25,7 @@ type ChatItem = {
 export default function ListMassage() {
   const [items, setItems] = useState<ChatItem[]>([]);
   const navigation = useNavigation<any>();
-
+  const dispatch = useDispatch();
   const user = useSelector<RootState, IUser>((state) => state.user.user!);
 
   const goChat = (fr: string) => () => {
@@ -36,6 +38,8 @@ export default function ListMassage() {
 
     const userToFrQ = query(messRef, where("from", "==", user.phone));
     const frToUserQ = query(messRef, where("to", "==", user.phone));
+
+    dispatch(removeNewMatching());
 
     try {
       const [userToFrData, frToUserData] = await Promise.all([getDocs(userToFrQ), getDocs(frToUserQ)]);

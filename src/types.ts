@@ -1,13 +1,3 @@
-export type CardItemT = {
-  description?: string;
-  hasActions?: boolean;
-  hasVariant?: boolean;
-  image: any;
-  isOnline?: boolean;
-  matches?: string;
-  name: string;
-};
-
 export type IconT = {
   name: any;
   size: number;
