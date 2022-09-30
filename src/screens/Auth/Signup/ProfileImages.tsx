@@ -63,15 +63,14 @@ const ProfileImages = () => {
               height: 56,
               borderRadius: 60,
               paddingHorizontal: 15,
-              backgroundColor: "#F5344B",
               alignItems: "center",
               justifyContent: "center",
               borderWidth: 1,
-              borderColor: "white",
+              borderColor: "#000",
               marginTop: 50,
             }}
           >
-            <Text style={{ color: "white", fontWeight: "700" }}>TIẾP TỤC</Text>
+            <Text style={{ color: "#000", fontWeight: "700" }}>TIẾP TỤC</Text>
           </TouchableOpacity>
         </View>
       </View>

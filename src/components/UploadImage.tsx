@@ -139,7 +139,7 @@ export default function UploadImage(props: any) {
           )}
           {!uploading ? (
             <TouchableOpacity style={styles.btn} onPress={uploadImage}>
-              <AntDesign name="plus" size={25} color="white" />
+              <AntDesign name="plus" size={25} color="#000" />
             </TouchableOpacity>
           ) : (
             <ActivityIndicator size="large" color="#000" />
@@ -167,7 +167,8 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     borderRadius: 20,
-    backgroundColor: "#F5344B",
+    borderColor: '#000',
+    borderWidth: 2,
     alignItems: "center",
     justifyContent: "center",
     zIndex: 3,
