@@ -4,11 +4,12 @@
 
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import InterestsVerification from "../screens/Auth/InterestsVerification";
 
 const Explore = () => {
   return (
     <View>
-      <Text>Explore</Text>
+      <InterestsVerification />
     </View>
   );
 };

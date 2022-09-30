@@ -73,7 +73,7 @@ const NameVerification = () => {
         <HStack
           style={{
             width: "100%",
-            marginTop: Platform.OS == "android" ? 2 : 46,
+            marginTop: Platform.OS == "android" ? 25 : 46,
             paddingHorizontal: 16,
             justifyContent: "space-between",
             marginBottom: 20,
