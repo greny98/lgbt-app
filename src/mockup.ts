@@ -2,7 +2,7 @@ import { EGender, IChat, IUser } from "./@types";
 import { collection, setDoc, doc, addDoc, getDocs } from "firebase/firestore";
 import { firestore } from "./firebase/config";
 
-export const users: IUser[] = [
+export const users = [
   {
     phone: "+84337676999",
     city: "Hanoi",
@@ -87,17 +87,17 @@ export const chats: IChat[] = [
 ];
 
 export const createUsers = async () => {
-  const userRef = collection(firestore, "users");
-  const promises = users.map((u) => setDoc(doc(userRef, u.phone), u));
-  await Promise.all(promises);
+  // const userRef = collection(firestore, "users");
+  // const promises = users.map((u) => setDoc(doc(userRef, u.phone), u));
+  // await Promise.all(promises);
 };
 
 export const createChats = async () => {
-  const chatRef = collection(firestore, "chats");
-  const data = await getDocs(chatRef);
-  if (data.docs.length > 0) {
-    return;
-  }
-  const promises0 = chats.map((chat) => addDoc(chatRef, chat));
-  await Promise.all(promises0);
+  // const chatRef = collection(firestore, "chats");
+  // const data = await getDocs(chatRef);
+  // if (data.docs.length > 0) {
+  //   return;
+  // }
+  // const promises0 = chats.map((chat) => addDoc(chatRef, chat));
+  // await Promise.all(promises0);
 };

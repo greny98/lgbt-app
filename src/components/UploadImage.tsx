@@ -26,7 +26,7 @@ export interface IUploadImageProps {
 
 export default function UploadImage(props: IUploadImageProps) {
   const { name } = props;
-  console.log(name);
+  // console.log(name);
 
   const [image, setImage] = useState(name);
   const [uploading, setUploading] = useState(false);
@@ -52,14 +52,14 @@ export default function UploadImage(props: IUploadImageProps) {
       quality: 0.5,
     });
     if (result.cancelled) {
-      console.log(result);
+      // console.log(result);
       return;
     }
 
     // const metadata = {
     //   contentType: "image/jpeg",
     // };
-    console.log("result.uri: ", result.uri);
+    // console.log("result.uri: ", result.uri);
 
     let imgName = result.uri.substring(result.uri.lastIndexOf("/") + 1);
     const storageRef = ref(storage, `${user.user?.phone}img${props.index}.jpg`);

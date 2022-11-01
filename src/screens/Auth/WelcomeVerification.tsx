@@ -31,7 +31,7 @@ const WelcomeVerification = () => {
         </View>
       </View>
       <View style={{ marginVertical: 40 }}>
-        <Text style={{ fontWeight: "700", fontSize: 24, marginBottom: 5 }}>Chào mừng bạn đến với Tinder.</Text>
+        <Text style={{ fontWeight: "700", fontSize: 24, marginBottom: 5 }}>Chào mừng bạn đến với LGBT.</Text>
         <Text style={{ textAlign: "center" }}>Vui lòng tuân thủ các Quy Tắc Chung này.</Text>
       </View>
 

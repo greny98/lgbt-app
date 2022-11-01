@@ -8,7 +8,6 @@ import EmailVerification from "../screens/Auth/Signup/EmailVerification";
 import WelcomeVerification from "../screens/Auth/WelcomeVerification";
 import NameVerification from "../screens/Auth/NameVerification";
 import GenderVerification from "../screens/Auth/GenderVerification";
-import SexVerification from "../screens/Auth/SexVerification";
 import ShowVerification from "../screens/Auth/ShowVerification";
 import SchoolVerification from "../screens/Auth/SchoolVerification";
 import InterestsVerification from "../screens/Auth/InterestsVerification";
@@ -29,7 +28,6 @@ export default function AuthStack() {
       <Stack.Screen name="WelcomeVerification" component={WelcomeVerification} options={{ headerShown: false }} />
       <Stack.Screen name="NameVerification" component={NameVerification} options={{ headerShown: false }} />
       <Stack.Screen name="GenderVerification" component={GenderVerification} options={{ headerShown: false }} />
-      <Stack.Screen name="SexVerification" component={SexVerification} options={{ headerShown: false }} />
       <Stack.Screen name="ShowVerification" component={ShowVerification} options={{ headerShown: false }} />
       <Stack.Screen name="SchoolVerification" component={SchoolVerification} options={{ headerShown: false }} />
       <Stack.Screen name="InterestsVerification" component={InterestsVerification} options={{ headerShown: false }} />
