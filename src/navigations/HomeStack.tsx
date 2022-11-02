@@ -7,12 +7,13 @@ import PostDetail from "../screens/PostDetail";
 
 interface HomeStackParams {
   Home: {};
+  PostDetailScreen: {};
 }
 const Stack = createNativeStackNavigator<HomeStackParams & ParamListBase>();
 
 export default function HomeStack() {
   return (
-    <Stack.Navigator initialRouteName="Home">
+    <Stack.Navigator initialRouteName="HomeScreen">
       <Stack.Screen name="HomeScreen" component={Home} options={{ headerShown: false }} />
       <Stack.Screen name="PostDetailScreen" component={PostDetail} options={{ headerShown: false }} />
     </Stack.Navigator>

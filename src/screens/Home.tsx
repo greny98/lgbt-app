@@ -42,28 +42,28 @@ const HomeVerification = () => {
   );
 
   const loadUsers = async () => {
-    dispatch(setLoading());
-    const userRef = collection(firestore, "users");
-    const qU = query(userRef, where("phone", "!=", user.phone));
-    const qM = query(matchingRef, where("from", "==", user.phone));
-    let users = (await getDocs(qU)).docs.map((doc) => {
-      const data = doc.data() as IUser;
-      console.log("====== data", data.birthday);
-      return { ...data, birthday: (data.birthday as any).toDate() };
-    });
-    const likedDict: { [key: string]: boolean } = {};
+    // dispatch(setLoading());
+    // const userRef = collection(firestore, "users");
+    // const qU = query(userRef, where("phone", "!=", user.phone));
+    // const qM = query(matchingRef, where("from", "==", user.phone));
+    // let users = (await getDocs(qU)).docs.map((doc) => {
+    //   const data = doc.data() as IUser;
+    //   console.log("====== data", data.birthday);
+    //   return { ...data, birthday: (data.birthday as any).toDate() };
+    // });
+    // const likedDict: { [key: string]: boolean } = {};
 
-    (await getDocs(qM)).docs.forEach((doc) => {
-      const match = doc.data() as IMatching;
-      likedDict[match.to] = true;
-    });
-    const filtered: IUser[] = [];
-    users.forEach((u) => {
-      if (!likedDict[u.phone]) filtered.push(u);
-    });
+    // (await getDocs(qM)).docs.forEach((doc) => {
+    //   const match = doc.data() as IMatching;
+    //   likedDict[match.to] = true;
+    // });
+    // const filtered: IUser[] = [];
+    // users.forEach((u) => {
+    //   if (!likedDict[u.phone]) filtered.push(u);
+    // });
 
-    setOtherUsers(filtered);
-    dispatch(removeLoading());
+    // setOtherUsers(filtered);
+    // dispatch(removeLoading());
   };
 
   useEffect(() => {
@@ -159,7 +159,10 @@ const HomeVerification = () => {
         </View>
       </View>
       <ScrollView style={{ flex: 1 }}>
-        <Post
+        <Post 
+          onPress={() => {
+            navigation.navigate("PostDetailScreen", {});
+          }}
           img={require("../../assets/images/avt.jpeg")}
           name="Martha Craig"
           user="@craig_love"
@@ -171,7 +174,7 @@ const HomeVerification = () => {
           retweet="5"
           heart="21"
         />
-        <Post
+        <Post 
           img={require("../../assets/images/avt.jpeg")}
           name="Martha Craig"
           user="@craig_love"

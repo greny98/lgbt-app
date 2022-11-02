@@ -17,6 +17,7 @@ import { removeLoading, setLoading } from "./redux/loading.reducer";
 import UserHome from "./screens/User/UserHome";
 import ProfileImages from "./screens/Auth/Signup/ProfileImages";
 import UploadImage from "./components/UploadImage";
+import HomeStack from "./navigations/HomeStack";
 
 // Navigation
 const Tab = createBottomTabNavigator();
@@ -70,7 +71,7 @@ export default function Root() {
       <NavigationContainer>
         {user ? (
           <Tab.Navigator initialRouteName="Home">
-            <Tab.Screen name="Home" component={Home} options={options} />
+            <Tab.Screen name="Home" component={HomeStack} options={options} />
             <Tab.Screen name="Grid" component={ProfileImages} options={options} />
             <Tab.Screen name="Message" component={MessageStack} options={options} />
             <Tab.Screen name="User" component={UserHome} options={options} />

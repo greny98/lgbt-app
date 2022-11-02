@@ -4,6 +4,7 @@ import {
   Text,
   TouchableOpacity,
   ImageSourcePropType,
+  TouchableOpacityProps
 } from "react-native";
 import React from "react";
 import {
@@ -17,7 +18,7 @@ import {
 } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 
-export interface PostProps {
+export interface PostProps extends TouchableOpacityProps {
   img: ImageSourcePropType;
   name: string;
   user: string;
@@ -34,9 +35,7 @@ const Post = (props: PostProps) => {
   const navigation = useNavigation<any>();
   return (
     <TouchableOpacity
-      onPress={() => {
-        navigation.navigate("PostDetailScreen");
-      }}
+      {...props}
       style={{ borderWidth: 0.2 }}
     >
       <HStack space={1} paddingX={4} style={{ paddingVertical: 10 }}>
