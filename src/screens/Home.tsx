@@ -1,7 +1,16 @@
 import { StyleSheet, Dimensions, StatusBar, Platform } from "react-native";
 import React, { useEffect, useState } from "react";
-import { Image, View } from "native-base";
-import { addDoc, collection, deleteDoc, doc, getDocs, query, setDoc, where } from "firebase/firestore";
+import { Image, ScrollView, View } from "native-base";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { firestore } from "../firebase/config";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
@@ -14,6 +23,7 @@ import { useNavigation } from "@react-navigation/native";
 import Loading from "./Loading";
 import moment from "moment";
 import { setNewMatching } from "../redux/matching.reducer";
+import Post from "../components/Post";
 
 const logoW = Dimensions.get("screen").width * 0.5;
 const logoH = (994 / 2596) * logoW;
@@ -27,7 +37,9 @@ const HomeVerification = () => {
   const loading = useSelector<RootState>((state) => state.loading.loading);
   const [otherUsers, setOtherUsers] = useState<IUser[]>([]);
   const dispatch = useDispatch<any>();
-  const [swipeDirection, setSwipeDirection] = useState<ESwipeDirection>(ESwipeDirection.NONE);
+  const [swipeDirection, setSwipeDirection] = useState<ESwipeDirection>(
+    ESwipeDirection.NONE
+  );
 
   const loadUsers = async () => {
     dispatch(setLoading());
@@ -77,7 +89,11 @@ const HomeVerification = () => {
 
   const onSwipedLeft = async (i: number) => {
     const fr = otherUsers[i];
-    const qToU = query(matchingRef, where("from", "==", fr.phone), where("to", "==", user.phone));
+    const qToU = query(
+      matchingRef,
+      where("from", "==", fr.phone),
+      where("to", "==", user.phone)
+    );
     const toU = (await getDocs(qToU)).docs[0];
     if (toU) {
       // Match
@@ -87,11 +103,19 @@ const HomeVerification = () => {
 
   const onSwipedRight = async (i: number) => {
     const fr = otherUsers[i];
-    const qToU = query(matchingRef, where("from", "==", fr.phone), where("to", "==", user.phone));
+    const qToU = query(
+      matchingRef,
+      where("from", "==", fr.phone),
+      where("to", "==", user.phone)
+    );
     const toU = (await getDocs(qToU)).docs[0];
     if (toU) {
       // Match
-      await setDoc(doc(matchingRef, toU.id), { from: fr.phone, to: user.phone, status: EMatchingStatus.ACCEPTED });
+      await setDoc(doc(matchingRef, toU.id), {
+        from: fr.phone,
+        to: user.phone,
+        status: EMatchingStatus.ACCEPTED,
+      });
       await addDoc(matchingRef, {
         from: user.phone,
         to: fr.phone,
@@ -105,7 +129,11 @@ const HomeVerification = () => {
       });
       dispatch(setNewMatching());
     } else {
-      await addDoc(matchingRef, { from: user.phone, to: fr.phone, status: EMatchingStatus.WAIT });
+      await addDoc(matchingRef, {
+        from: user.phone,
+        to: fr.phone,
+        status: EMatchingStatus.WAIT,
+      });
     }
   };
 
@@ -113,7 +141,9 @@ const HomeVerification = () => {
     <Loading />
   ) : (
     <View style={styles.container}>
-      <StatusBar barStyle={Platform.OS === "android" ? "light-content" : "dark-content"} />
+      <StatusBar
+        barStyle={Platform.OS === "android" ? "light-content" : "dark-content"}
+      />
       <View height={Platform.OS == "android" ? 7 : 50} />
       <View style={styles.logo}>
         <View>
@@ -128,45 +158,56 @@ const HomeVerification = () => {
           />
         </View>
       </View>
-
-      <View>
-        {/* {swipeDirection == ESwipeDirection.LEFT && (
-          <View
-            style={[
-              {
-                borderColor: "red",
-                right: 40,
-                top: 40,
-                transform: [{ rotate: "15deg" }],
-              },
-              styles.tag,
-            ]}
-          >
-            <Text style={{ fontSize: 28, color: "red" }}>NOPE</Text>
-          </View>
-        )} */}
-        <CardStack
-          // loop
-          verticalSwipe={false}
-          renderNoMoreCards={() => null}
-          ref={(newSwiper): void => setSwiper(newSwiper)}
-          onSwipedLeft={onSwipedLeft}
-          onSwipedRight={onSwipedRight}
-          onSwipe={onSwipe}
-        >
-          {otherUsers.map((item) => (
-            <Card key={item.phone}>
-              <CardItem
-                hasActions
-                image={require("../../assets/ltkh.png")}
-                name={`${item.firstName} ${item.lastName}`}
-                description={`${moment(new Date()).diff(item.birthday, "year")}, ${item.gender}`}
-                // matches={item.match}
-              />
-            </Card>
-          ))}
-        </CardStack>
-      </View>
+      <ScrollView style={{ flex: 1 }}>
+        <Post
+          img={require("../../assets/images/avt.jpeg")}
+          name="Martha Craig"
+          user="@craig_love"
+          time="12"
+          content="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring?"
+          hashtag="#TellMeAboutYou"
+          img_content={require("../../assets/images/content.png")}
+          comment="28"
+          retweet="5"
+          heart="21"
+        />
+        <Post
+          img={require("../../assets/images/avt.jpeg")}
+          name="Martha Craig"
+          user="@craig_love"
+          time="12"
+          content="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring?"
+          hashtag="#TellMeAboutYou"
+          img_content={require("../../assets/images/content.png")}
+          comment="28"
+          retweet="5"
+          heart="21"
+        />
+        <Post
+          img={require("../../assets/images/avt.jpeg")}
+          name="Martha Craig"
+          user="@craig_love"
+          time="12"
+          content="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring?"
+          hashtag="#TellMeAboutYou"
+          img_content={require("../../assets/images/content.png")}
+          comment="28"
+          retweet="5"
+          heart="21"
+        />
+        <Post
+          img={require("../../assets/images/avt.jpeg")}
+          name="Martha Craig"
+          user="@craig_love"
+          time="12"
+          content="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring?"
+          hashtag="#TellMeAboutYou"
+          img_content={require("../../assets/images/content.png")}
+          comment="28"
+          retweet="5"
+          heart="21"
+        />
+      </ScrollView>
     </View>
   );
 };
@@ -176,7 +217,7 @@ export default HomeVerification;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
   },
 
   logo: {

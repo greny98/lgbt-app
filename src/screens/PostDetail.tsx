@@ -1,11 +1,15 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
 import Post from "../components/Post";
-import { Center, Heading, HStack, Image, VStack } from "native-base";
+import { Center, Heading, HStack, Image, ScrollView, VStack } from "native-base";
+import { useNavigation } from "@react-navigation/native";
+
 
 const PostDetail = () => {
+  const navigation = useNavigation();
+
   return (
-    <View>
+    <ScrollView>
       <HStack space={1} paddingX={4} style={{ paddingVertical: 10 }}>
         <Image
           source={require("../../assets/images/avt.jpeg")}
@@ -63,17 +67,41 @@ const PostDetail = () => {
         <Image source={require("../../assets/icons/share.png")} alt="icon" />
       </HStack>
       <Post
-            img={require("../../assets/images/avt.jpeg")}
-            name="Martha Craig"
-            user="@craig_love"
-            time="12"
-            content="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring?"
-            hashtag="#TellMeAboutYou"
-            img_content={require("../../assets/images/content.png")}
-            comment="28"
-            retweet="5"
-            heart="21"
-          />
+        img={require("../../assets/images/avt.jpeg")}
+        name="Martha Craig"
+        user="@craig_love"
+        time="12"
+        content="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring?"
+        hashtag="#TellMeAboutYou"
+        img_content={require("../../assets/images/content.png")}
+        comment="28"
+        retweet="5"
+        heart="21"
+      />
+      <Post
+        img={require("../../assets/images/avt.jpeg")}
+        name="Martha Craig"
+        user="@craig_love"
+        time="12"
+        content="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring?"
+        hashtag="#TellMeAboutYou"
+        img_content={require("../../assets/images/content.png")}
+        comment="28"
+        retweet="5"
+        heart="21"
+      />
+      <Post
+        img={require("../../assets/images/avt.jpeg")}
+        name="Martha Craig"
+        user="@craig_love"
+        time="12"
+        content="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring?"
+        hashtag="#TellMeAboutYou"
+        img_content={require("../../assets/images/content.png")}
+        comment="28"
+        retweet="5"
+        heart="21"
+      />
       {/* <HStack space={1} paddingX={4} style={{ paddingVertical: 10 }}>
         <Image
           source={require("../../assets/images/avt.jpeg")}
@@ -93,7 +121,7 @@ const PostDetail = () => {
           </HStack>
         </VStack>
       </HStack> */}
-    </View>
+    </ScrollView>
   );
 };
 

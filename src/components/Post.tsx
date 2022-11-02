@@ -15,6 +15,7 @@ import {
   Image,
   VStack,
 } from "native-base";
+import { useNavigation } from "@react-navigation/native";
 
 export interface PostProps {
   img: ImageSourcePropType;
@@ -30,8 +31,14 @@ export interface PostProps {
 }
 
 const Post = (props: PostProps) => {
+  const navigation = useNavigation<any>();
   return (
-    <TouchableOpacity style={{ borderWidth: 0.2 }}>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate("PostDetailScreen");
+      }}
+      style={{ borderWidth: 0.2 }}
+    >
       <HStack space={1} paddingX={4} style={{ paddingVertical: 10 }}>
         <Image
           source={props.img}
@@ -56,7 +63,11 @@ const Post = (props: PostProps) => {
             {props.content}
             <Text style={{ color: "#4C9EEB" }}>{props.hashtag}</Text>
           </Text>
-          <Image source={props.img_content} alt="img" style={{borderRadius: 10}} />
+          <Image
+            source={props.img_content}
+            alt="img"
+            style={{ borderRadius: 10 }}
+          />
           <HStack marginTop={2} space={12}>
             <HStack style={{ alignItems: "center" }}>
               <Image
