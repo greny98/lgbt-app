@@ -1,34 +1,105 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ImageSourcePropType,
+} from "react-native";
 import React from "react";
-import { Avatar, Heading, HStack, Image, VStack } from "native-base";
+import {
+  Avatar,
+  Button,
+  Center,
+  Heading,
+  HStack,
+  Image,
+  VStack,
+} from "native-base";
 
-const Post = () => {
+export interface PostProps {
+  img: ImageSourcePropType;
+  name: string;
+  user: string;
+  time: string;
+  content: string;
+  hashtag: string;
+  img_content: ImageSourcePropType;
+  comment: string;
+  retweet: string;
+  heart: string;
+}
+
+const Post = (props: PostProps) => {
   return (
-    <VStack>
-      <HStack>
+    <TouchableOpacity style={{ borderWidth: 0.2 }}>
+      <HStack space={1} paddingX={4} style={{ paddingVertical: 10 }}>
         <Image
-          source={require("../../assets/images/avt.jpeg")}
+          source={props.img}
           alt="avt"
           rounded="full"
-          style={{ width: 60, height: 60, marginRight: 6 }}
+          style={{ width: 60, height: 60 }}
         />
-        <VStack>
-          <Heading style={{ marginBottom: 2 }}>Post</Heading>
-          <Text>2:00pm, 25-10-2022</Text>
+        <VStack flex={1}>
+          <HStack>
+            <Heading style={{ fontSize: 16 }}>
+              {props.name}{" "}
+              <Text style={{ fontWeight: "normal", color: "gray" }}>
+                {props.user}
+              </Text>{" "}
+              {""}
+              <Text style={{ fontWeight: "normal", color: "gray" }}>
+                {props.time}h
+              </Text>
+            </Heading>
+          </HStack>
+          <Text numberOfLines={4}>
+            {props.content}
+            <Text style={{ color: "#4C9EEB" }}>{props.hashtag}</Text>
+          </Text>
+          <Image source={props.img_content} alt="img" style={{borderRadius: 10}} />
+          <HStack marginTop={2} space={12}>
+            <HStack style={{ alignItems: "center" }}>
+              <Image
+                source={require("../../assets/icons/comment.png")}
+                alt="icon"
+              />
+              <Text style={styles.number}>{props.comment}</Text>
+            </HStack>
+            <HStack style={{ alignItems: "center" }}>
+              <Image
+                source={require("../../assets/icons/retweet.png")}
+                alt="icon"
+              />
+              <Text style={styles.number}>{props.retweet}</Text>
+            </HStack>
+            <HStack style={{ alignItems: "center" }}>
+              <Image
+                source={require("../../assets/icons/heart.png")}
+                alt="icon"
+              />
+              <Text style={styles.number}>{props.heart}</Text>
+            </HStack>
+            <HStack style={{ alignItems: "center" }}>
+              <Image
+                source={require("../../assets/icons/share.png")}
+                alt="icon"
+              />
+            </HStack>
+          </HStack>
         </VStack>
       </HStack>
-      <HStack>
-        <View style={{ width: 66 }} />
-        <Text>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae asperiores pariatur labore debitis deserunt
-          corporis neque voluptatem. Fugiat, corporis placeat vel exercitationem nostrum natus consequatur? Molestias
-          dolorem corrupti reiciendis ducimus!
-        </Text>
-      </HStack>
-    </VStack>
+    </TouchableOpacity>
   );
 };
 
 export default Post;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  number: {
+    marginLeft: 3,
+    color: "gray",
+  },
+  btn: {
+    color: "#4C9EEB",
+  },
+});
