@@ -50,9 +50,9 @@ const PostDetail = () => {
             style={{ width: 60, height: 60 }}
           />
           <VStack flex={1}>
-            <Heading style={{ fontSize: 16 }}>Nguyễn Hải Linh</Heading>
+            <Heading style={{ fontSize: 16 }}>Tú Anh</Heading>
             <Text style={{ fontWeight: "normal", color: "gray" }}>
-              @hlinhh
+              @tanh
             </Text>
           </VStack>
         </HStack>
@@ -111,8 +111,8 @@ const PostDetail = () => {
           disabled
           activeOpacity={0}
           img={require("../../assets/images/avt.jpeg")}
-          name="Nguyễn Anh Tuấn"
-          user="@tuangay"
+          name="Hoàng Nam"
+          user="@hnam"
           time="1"
           content="Wowwww...."
           hashtag="#LGBT"
@@ -125,8 +125,8 @@ const PostDetail = () => {
           disabled
           activeOpacity={0}
           img={require("../../assets/images/avt1.jpeg")}
-          name="Nguyễn Văn Cường"
-          user="@cuongno"
+          name="Bá Phước"
+          user="@bphuoc"
           time="2"
           content="Tuyệt vời..."
           hashtag="#Dongtinh"
@@ -139,8 +139,8 @@ const PostDetail = () => {
           disabled
           activeOpacity={0}
           img={require("../../assets/images/avt3.jpeg")}
-          name="Việt Anh"
-          user="@susuva"
+          name="Tùng Quân"
+          user="@tquan"
           time="3"
           content="Không thể tin nổi"
           hashtag="#Songtinh"
@@ -153,8 +153,8 @@ const PostDetail = () => {
           disabled
           activeOpacity={0}
           img={require("../../assets/images/avt4.jpeg")}
-          name="Quang Anh"
-          user="@qanh"
+          name="Hữu Thiện"
+          user="@hthien"
           time="5"
           content="Nice..."
           hashtag="#Chuyengioi"

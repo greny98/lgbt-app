@@ -162,8 +162,8 @@ const HomeVerification = () => {
             navigation.navigate("PostDetailScreen", {});
           }}
           img={require("../../assets/images/av1.png")}
-          name="Nguyễn Hải Linh"
-          user="@hlinhh"
+          name="Tú Anh"
+          user="@tanh"
           time="1"
           content="LÀ NGƯỜI ĐỒNG TÍNH, SONG TÍNH VÀ CHUYỂN GIỚI (LGBT) Ở CHÂU Á: BÁO CÁO QUỐC GIA VIỆT NAM:
           https://drive.google.com/drive/folders/1jJdFXNaDFnvjNBz-GK88GDxTSdxCQ0LJ?fbclid=IwAR0lLe3SjoI7FkVvp5SLAiY4yWlCHOsXdFVSPMt4SEiVgUvTOS2MfRKcRQ8"
@@ -178,8 +178,8 @@ const HomeVerification = () => {
             navigation.navigate("PostDetailScreen", {});
           }}
           img={require("../../assets/images/av2.png")}
-          name="Trần Khánh Ly"
-          user="@lyly"
+          name="Đức Bình"
+          user="@dbinh"
           time="2"
           content="QUYỀN CỦA TÔI:
           Những gì bạn cần biết về pháp luật và quyền của người đồng tính, song tính và chuyển giới tại Việt Nam:
@@ -195,8 +195,8 @@ const HomeVerification = () => {
             navigation.navigate("PostDetailScreen", {});
           }}
           img={require("../../assets/images/av3.png")}
-          name="Hoàng Phương Thảo"
-          user="@thaoooo"
+          name="Ngọc Cảnh"
+          user="@ncanh"
           time="2"
           content="Các cụm từ tránh dùng & Gợi ý về cách dùng từ khi nói về LGBT: 
           https://drive.google.com/drive/folders/1jJdFXNaDFnvjNBz-GK88GDxTSdxCQ0LJ?fbclid=IwAR0lLe3SjoI7FkVvp5SLAiY4yWlCHOsXdFVSPMt4SEiVgUvTOS2MfRKcRQ8"
@@ -211,8 +211,8 @@ const HomeVerification = () => {
             navigation.navigate("PostDetailScreen", {});
           }}
           img={require("../../assets/images/av4.png")}
-          name="Khuất Minh Chi"
-          user="@chinee"
+          name="Hải Đăng"
+          user="@hdang"
           time="3"
           content="Tất tần tật về giới tính và LGBT: 
           https://drive.google.com/drive/folders/1jJdFXNaDFnvjNBz-GK88GDxTSdxCQ0LJ?fbclid=IwAR0lLe3SjoI7FkVvp5SLAiY4yWlCHOsXdFVSPMt4SEiVgUvTOS2MfRKcRQ8"
@@ -227,8 +227,8 @@ const HomeVerification = () => {
             navigation.navigate("PostDetailScreen", {});
           }}
           img={require("../../assets/images/av5.png")}
-          name="Nguyễn Tú Linh"
-          user="@tlinhhh"
+          name="Huy Hoàng"
+          user="@hhoang"
           time="4"
           content="Sổ tay: CÁC VẤN ĐỀ PHÁP LÝ DÀNH CHO NGƯỜI HOẠT ĐỘNG XÃ HỘI.
           https://drive.google.com/drive/folders/1jJdFXNaDFnvjNBz-GK88GDxTSdxCQ0LJ?fbclid=IwAR0lLe3SjoI7FkVvp5SLAiY4yWlCHOsXdFVSPMt4SEiVgUvTOS2MfRKcRQ8"
@@ -243,8 +243,8 @@ const HomeVerification = () => {
             navigation.navigate("PostDetailScreen", {});
           }}
           img={require("../../assets/images/av6.png")}
-          name="Phan Mai Thanh Hiền"
-          user="@susu"
+          name="Phúc Lâm"
+          user="@plam"
           time="6"
           content="QUẠT CẦU VỒNG
           https://drive.google.com/file/d/1YEolxYE0vtdHRbw7tfFKtrJlBzm1OKD9/view?fbclid=IwAR041qiAZsA8oPXPlveMH9dIO2M8YUZE527zozR3fd98Iy7tkKTOFgTI5Ls"
@@ -259,8 +259,8 @@ const HomeVerification = () => {
             navigation.navigate("PostDetailScreen", {});
           }}
           img={require("../../assets/images/av7.png")}
-          name="Đàm Phương Thảo"
-          user="@thaodam"
+          name="Minh Khang"
+          user="@mkhang"
           time="8"
           content="ĐA DẠNG TÍNH DỤC"
           hashtag="#LGBT #Dongtinh #Songtinh #Chuyengioi"
