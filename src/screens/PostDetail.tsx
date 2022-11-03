@@ -44,15 +44,15 @@ const PostDetail = () => {
       <ScrollView>
         <HStack space={1} paddingX={4} style={{ paddingVertical: 10 }}>
           <Image
-            source={require("../../assets/images/avt.jpeg")}
+            source={require("../../assets/images/av1.png")}
             alt="avt"
             rounded="full"
             style={{ width: 60, height: 60 }}
           />
           <VStack flex={1}>
-            <Heading style={{ fontSize: 16 }}>karenne</Heading>
+            <Heading style={{ fontSize: 16 }}>Nguyễn Hải Linh</Heading>
             <Text style={{ fontWeight: "normal", color: "gray" }}>
-              @karenne
+              @hlinhh
             </Text>
           </VStack>
         </HStack>
@@ -60,13 +60,14 @@ const PostDetail = () => {
           style={{ marginHorizontal: 15, borderBottomWidth: 0.2 }}
           space={3}
         >
-          <Text numberOfLines={4}>
-            ~~ hiring for a UX Lead in Sydney - who should I talk to?
+          <Text>
+            LÀ NGƯỜI ĐỒNG TÍNH, SONG TÍNH VÀ CHUYỂN GIỚI (LGBT) Ở CHÂU Á: BÁO CÁO QUỐC GIA VIỆT NAM:
+            https://drive.google.com/drive/folders/1jJdFXNaDFnvjNBz-GK88GDxTSdxCQ0LJ?fbclid=IwAR0lLe3SjoI7FkVvp5SLAiY4yWlCHOsXdFVSPMt4SEiVgUvTOS2MfRKcRQ8
           </Text>
           <Image
-            source={require("../../assets/images/content.png")}
+            source={require("../../assets/images/content1.png")}
             alt="img"
-            style={{ borderRadius: 10 }}
+            style={{ width: "100%", height: 300, borderRadius: 10 }}
           />
           <HStack style={{ paddingVertical: 10 }} space={1}>
             <Text style={{ marginLeft: 5 }}> 09:28 </Text>
@@ -82,9 +83,9 @@ const PostDetail = () => {
           }}
           space={1}
         >
-          <Text style={{ fontWeight: "bold", marginLeft: 10 }}>6</Text>
+          <Text style={{ fontWeight: "bold", marginLeft: 10 }}>80</Text>
           <Text>Retweets</Text>
-          <Text style={{ fontWeight: "bold" }}>15</Text>
+          <Text style={{ fontWeight: "bold" }}>2808</Text>
           <Text>Likes</Text>
         </HStack>
         <HStack
@@ -110,17 +111,59 @@ const PostDetail = () => {
           disabled
           activeOpacity={0}
           img={require("../../assets/images/avt.jpeg")}
-          name="Martha Craig"
-          user="@craig_love"
-          time="12"
-          content="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring?"
-          hashtag="#TellMeAboutYou"
-          img_content={require("../../assets/images/content.png")}
+          name="Nguyễn Anh Tuấn"
+          user="@tuangay"
+          time="1"
+          content="Wowwww...."
+          hashtag="#LGBT"
+          img_content={require("../../assets/images/contentt1.png")}
           comment="28"
           retweet="5"
           heart="21"
         />
-        
+        <Post
+          disabled
+          activeOpacity={0}
+          img={require("../../assets/images/avt1.jpeg")}
+          name="Nguyễn Văn Cường"
+          user="@cuongno"
+          time="2"
+          content="Tuyệt vời..."
+          hashtag="#Dongtinh"
+          img_content={require("../../assets/images/contentt2.png")}
+          comment="24"
+          retweet="7"
+          heart="365"
+        />
+        <Post
+          disabled
+          activeOpacity={0}
+          img={require("../../assets/images/avt3.jpeg")}
+          name="Việt Anh"
+          user="@susuva"
+          time="3"
+          content="Không thể tin nổi"
+          hashtag="#Songtinh"
+          img_content={require("../../assets/images/contentt3.png")}
+          comment="26"
+          retweet="42"
+          heart="245"
+        />
+        <Post
+          disabled
+          activeOpacity={0}
+          img={require("../../assets/images/avt4.jpeg")}
+          name="Quang Anh"
+          user="@qanh"
+          time="5"
+          content="Nice..."
+          hashtag="#Chuyengioi"
+          img_content={require("../../assets/images/contentt4.png")}
+          comment="13"
+          retweet="48"
+          heart="672"
+        />
+
         {/* <HStack space={1} paddingX={4} style={{ paddingVertical: 10 }}>
         <Image
           source={require("../../assets/images/avt.jpeg")}
@@ -157,6 +200,6 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     paddingBottom: 16,
-    borderBottomWidth: 0.5
+    borderBottomWidth: 0.5,
   },
 });

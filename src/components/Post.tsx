@@ -4,7 +4,7 @@ import {
   Text,
   TouchableOpacity,
   ImageSourcePropType,
-  TouchableOpacityProps
+  TouchableOpacityProps,
 } from "react-native";
 import React from "react";
 import {
@@ -34,10 +34,7 @@ export interface PostProps extends TouchableOpacityProps {
 const Post = (props: PostProps) => {
   const navigation = useNavigation<any>();
   return (
-    <TouchableOpacity
-      {...props}
-      style={{ borderWidth: 0.2 }}
-    >
+    <TouchableOpacity {...props} style={{ borderWidth: 0.2 }}>
       <HStack space={1} paddingX={4} style={{ paddingVertical: 10 }}>
         <Image
           source={props.img}
@@ -58,14 +55,13 @@ const Post = (props: PostProps) => {
               </Text>
             </Heading>
           </HStack>
-          <Text numberOfLines={4}>
-            {props.content}
-            <Text style={{ color: "#4C9EEB" }}>{props.hashtag}</Text>
-          </Text>
+          <Text>{props.content}</Text>
+          <Text style={{ color: "#4C9EEB" }}>{props.hashtag}</Text>
           <Image
             source={props.img_content}
             alt="img"
-            style={{ borderRadius: 10 }}
+            rounded="full"
+            style={{ width: '100%', height: 200, borderRadius: 10 }}
           />
           <HStack marginTop={2} space={12}>
             <HStack style={{ alignItems: "center" }}>

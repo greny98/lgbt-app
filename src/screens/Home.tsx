@@ -52,7 +52,6 @@ const HomeVerification = () => {
     //   return { ...data, birthday: (data.birthday as any).toDate() };
     // });
     // const likedDict: { [key: string]: boolean } = {};
-
     // (await getDocs(qM)).docs.forEach((doc) => {
     //   const match = doc.data() as IMatching;
     //   likedDict[match.to] = true;
@@ -61,7 +60,6 @@ const HomeVerification = () => {
     // users.forEach((u) => {
     //   if (!likedDict[u.phone]) filtered.push(u);
     // });
-
     // setOtherUsers(filtered);
     // dispatch(removeLoading());
   };
@@ -159,56 +157,117 @@ const HomeVerification = () => {
         </View>
       </View>
       <ScrollView style={{ flex: 1 }}>
-        <Post 
+        <Post
           onPress={() => {
             navigation.navigate("PostDetailScreen", {});
           }}
-          img={require("../../assets/images/avt.jpeg")}
-          name="Martha Craig"
-          user="@craig_love"
-          time="12"
-          content="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring?"
-          hashtag="#TellMeAboutYou"
-          img_content={require("../../assets/images/content.png")}
-          comment="28"
-          retweet="5"
-          heart="21"
-        />
-        <Post 
-          img={require("../../assets/images/avt.jpeg")}
-          name="Martha Craig"
-          user="@craig_love"
-          time="12"
-          content="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring?"
-          hashtag="#TellMeAboutYou"
-          img_content={require("../../assets/images/content.png")}
-          comment="28"
-          retweet="5"
-          heart="21"
+          img={require("../../assets/images/av1.png")}
+          name="Nguyễn Hải Linh"
+          user="@hlinhh"
+          time="1"
+          content="LÀ NGƯỜI ĐỒNG TÍNH, SONG TÍNH VÀ CHUYỂN GIỚI (LGBT) Ở CHÂU Á: BÁO CÁO QUỐC GIA VIỆT NAM:
+          https://drive.google.com/drive/folders/1jJdFXNaDFnvjNBz-GK88GDxTSdxCQ0LJ?fbclid=IwAR0lLe3SjoI7FkVvp5SLAiY4yWlCHOsXdFVSPMt4SEiVgUvTOS2MfRKcRQ8"
+          hashtag="#LGBT #Dongtinh #Songtinh #Chuyengioi"
+          img_content={require("../../assets/images/content1.png")}
+          comment="280"
+          retweet="80"
+          heart="2808"
         />
         <Post
-          img={require("../../assets/images/avt.jpeg")}
-          name="Martha Craig"
-          user="@craig_love"
-          time="12"
-          content="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring?"
-          hashtag="#TellMeAboutYou"
-          img_content={require("../../assets/images/content.png")}
-          comment="28"
-          retweet="5"
-          heart="21"
+          onPress={() => {
+            navigation.navigate("PostDetailScreen", {});
+          }}
+          img={require("../../assets/images/av2.png")}
+          name="Trần Khánh Ly"
+          user="@lyly"
+          time="2"
+          content="QUYỀN CỦA TÔI:
+          Những gì bạn cần biết về pháp luật và quyền của người đồng tính, song tính và chuyển giới tại Việt Nam:
+          https://drive.google.com/drive/folders/1jJdFXNaDFnvjNBz-GK88GDxTSdxCQ0LJ?fbclid=IwAR0lLe3SjoI7FkVvp5SLAiY4yWlCHOsXdFVSPMt4SEiVgUvTOS2MfRKcRQ8"
+          hashtag="#LGBT #Dongtinh #Songtinh #Chuyengioi"
+          img_content={require("../../assets/images/content2.png")}
+          comment="15"
+          retweet="54"
+          heart="211"
         />
         <Post
-          img={require("../../assets/images/avt.jpeg")}
-          name="Martha Craig"
-          user="@craig_love"
-          time="12"
-          content="UXR/UX: You can only bring one item to a remote island to assist your research of native use of tools and usability. What do you bring?"
-          hashtag="#TellMeAboutYou"
-          img_content={require("../../assets/images/content.png")}
-          comment="28"
-          retweet="5"
-          heart="21"
+          onPress={() => {
+            navigation.navigate("PostDetailScreen", {});
+          }}
+          img={require("../../assets/images/av3.png")}
+          name="Hoàng Phương Thảo"
+          user="@thaoooo"
+          time="2"
+          content="Các cụm từ tránh dùng & Gợi ý về cách dùng từ khi nói về LGBT: 
+          https://drive.google.com/drive/folders/1jJdFXNaDFnvjNBz-GK88GDxTSdxCQ0LJ?fbclid=IwAR0lLe3SjoI7FkVvp5SLAiY4yWlCHOsXdFVSPMt4SEiVgUvTOS2MfRKcRQ8"
+          hashtag="#LGBT #Dongtinh #Songtinh #Chuyengioi"
+          img_content={require("../../assets/images/content3.png")}
+          comment="12"
+          retweet="21"
+          heart="35"
+        />
+        <Post
+          onPress={() => {
+            navigation.navigate("PostDetailScreen", {});
+          }}
+          img={require("../../assets/images/av4.png")}
+          name="Khuất Minh Chi"
+          user="@chinee"
+          time="3"
+          content="Tất tần tật về giới tính và LGBT: 
+          https://drive.google.com/drive/folders/1jJdFXNaDFnvjNBz-GK88GDxTSdxCQ0LJ?fbclid=IwAR0lLe3SjoI7FkVvp5SLAiY4yWlCHOsXdFVSPMt4SEiVgUvTOS2MfRKcRQ8"
+          hashtag="#LGBT #Dongtinh #Songtinh #Chuyengioi"
+          img_content={require("../../assets/images/content4.png")}
+          comment="45"
+          retweet="78"
+          heart="324"
+        />
+        <Post
+          onPress={() => {
+            navigation.navigate("PostDetailScreen", {});
+          }}
+          img={require("../../assets/images/av5.png")}
+          name="Nguyễn Tú Linh"
+          user="@tlinhhh"
+          time="4"
+          content="Sổ tay: CÁC VẤN ĐỀ PHÁP LÝ DÀNH CHO NGƯỜI HOẠT ĐỘNG XÃ HỘI.
+          https://drive.google.com/drive/folders/1jJdFXNaDFnvjNBz-GK88GDxTSdxCQ0LJ?fbclid=IwAR0lLe3SjoI7FkVvp5SLAiY4yWlCHOsXdFVSPMt4SEiVgUvTOS2MfRKcRQ8"
+          hashtag="#LGBT #Dongtinh #Songtinh #Chuyengioi"
+          img_content={require("../../assets/images/content5.png")}
+          comment="24"
+          retweet="7"
+          heart="365"
+        />
+        <Post
+          onPress={() => {
+            navigation.navigate("PostDetailScreen", {});
+          }}
+          img={require("../../assets/images/av6.png")}
+          name="Phan Mai Thanh Hiền"
+          user="@susu"
+          time="6"
+          content="QUẠT CẦU VỒNG
+          https://drive.google.com/file/d/1YEolxYE0vtdHRbw7tfFKtrJlBzm1OKD9/view?fbclid=IwAR041qiAZsA8oPXPlveMH9dIO2M8YUZE527zozR3fd98Iy7tkKTOFgTI5Ls"
+          hashtag="#LGBT #Dongtinh #Songtinh #Chuyengioi"
+          img_content={require("../../assets/images/content6.png")}
+          comment="26"
+          retweet="42"
+          heart="245"
+        />
+        <Post
+          onPress={() => {
+            navigation.navigate("PostDetailScreen", {});
+          }}
+          img={require("../../assets/images/av7.png")}
+          name="Đàm Phương Thảo"
+          user="@thaodam"
+          time="8"
+          content="ĐA DẠNG TÍNH DỤC"
+          hashtag="#LGBT #Dongtinh #Songtinh #Chuyengioi"
+          img_content={require("../../assets/images/content7.png")}
+          comment="13"
+          retweet="48"
+          heart="672"
         />
       </ScrollView>
     </View>
